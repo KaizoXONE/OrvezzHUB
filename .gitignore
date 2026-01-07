@@ -1,0 +1,33 @@
+# Ignore Roblox Studio files
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore IDE/Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+~*
+
+# Ignore config/cache folders (optional, remove if needed)
+Config/
+Cache/
+
+# Ignore node modules if using any JS tools
+node_modules/
+
+# Keep these folders but ignore their contents
+*.gitkeep
