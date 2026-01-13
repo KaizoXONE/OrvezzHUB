@@ -43,6 +43,191 @@ local Theme = { --// (Dark Theme)
 	Icon = Color3.fromRGB(220, 220, 220),
 }
 
+--// Lucide Icons System
+local LucideIcons = {
+	-- Common icons mapping to Roblox asset IDs
+	-- You can add more icons here or load from external source
+	["home"] = "rbxassetid://11293977610",
+	["settings"] = "rbxassetid://11293977610",
+	["user"] = "rbxassetid://11419706819",
+	["search"] = "rbxassetid://11419703492",
+	["menu"] = "rbxassetid://11419701606",
+	["x"] = "rbxassetid://11419704569",
+	["check"] = "rbxassetid://11419699908",
+	["chevron-down"] = "rbxassetid://11419700048",
+	["chevron-up"] = "rbxassetid://11419700195",
+	["chevron-left"] = "rbxassetid://11419700108",
+	["chevron-right"] = "rbxassetid://11419700153",
+	["plus"] = "rbxassetid://11419702668",
+	["minus"] = "rbxassetid://11419701769",
+	["edit"] = "rbxassetid://11419700434",
+	["trash"] = "rbxassetid://11419704239",
+	["save"] = "rbxassetid://11419703298",
+	["download"] = "rbxassetid://11419700304",
+	["upload"] = "rbxassetid://11419704427",
+	["refresh"] = "rbxassetid://11419702932",
+	["power"] = "rbxassetid://11419702605",
+	["bell"] = "rbxassetid://11419699634",
+	["star"] = "rbxassetid://11419703869",
+	["heart"] = "rbxassetid://11419701308",
+	["folder"] = "rbxassetid://11419700868",
+	["file"] = "rbxassetid://11419700611",
+	["copy"] = "rbxassetid://11419700006",
+	["clipboard"] = "rbxassetid://11419699949",
+	["link"] = "rbxassetid://11419701514",
+	["external-link"] = "rbxassetid://11419700489",
+	["eye"] = "rbxassetid://11419700547",
+	["eye-off"] = "rbxassetid://11419700513",
+	["lock"] = "rbxassetid://11419701546",
+	["unlock"] = "rbxassetid://11419704350",
+	["key"] = "rbxassetid://11419701425",
+	["shield"] = "rbxassetid://11419703554",
+	["alert-circle"] = "rbxassetid://11419699529",
+	["alert-triangle"] = "rbxassetid://11419699575",
+	["info"] = "rbxassetid://11419701371",
+	["help-circle"] = "rbxassetid://11419701346",
+	["zap"] = "rbxassetid://11419704688",
+	["activity"] = "rbxassetid://11419699435",
+	["target"] = "rbxassetid://11419704049",
+	["crosshair"] = "rbxassetid://11419700048",
+	["compass"] = "rbxassetid://11419699976",
+	["map"] = "rbxassetid://11419701657",
+	["map-pin"] = "rbxassetid://11419701631",
+	["navigation"] = "rbxassetid://11419702225",
+	["sun"] = "rbxassetid://11419703957",
+	["moon"] = "rbxassetid://11419701960",
+	["cloud"] = "rbxassetid://11419699964",
+	["droplet"] = "rbxassetid://11419700382",
+	["thermometer"] = "rbxassetid://11419704130",
+	["wind"] = "rbxassetid://11419704526",
+	["umbrella"] = "rbxassetid://11419704303",
+	["fish"] = "rbxassetid://11419700802",
+	["gamepad"] = "rbxassetid://11419700994",
+	["gamepad-2"] = "rbxassetid://11419700954",
+	["play"] = "rbxassetid://11419702478",
+	["pause"] = "rbxassetid://11419702413",
+	["stop"] = "rbxassetid://11419703814",
+	["skip-forward"] = "rbxassetid://11419703656",
+	["skip-back"] = "rbxassetid://11419703607",
+	["volume"] = "rbxassetid://11419704482",
+	["volume-2"] = "rbxassetid://11419704460",
+	["volume-x"] = "rbxassetid://11419704504",
+	["mic"] = "rbxassetid://11419701723",
+	["mic-off"] = "rbxassetid://11419701695",
+	["camera"] = "rbxassetid://11419699786",
+	["image"] = "rbxassetid://11419701397",
+	["video"] = "rbxassetid://11419704438",
+	["phone"] = "rbxassetid://11419702447",
+	["mail"] = "rbxassetid://11419701584",
+	["message-circle"] = "rbxassetid://11419701677",
+	["message-square"] = "rbxassetid://11419701709",
+	["send"] = "rbxassetid://11419703378",
+	["share"] = "rbxassetid://11419703457",
+	["share-2"] = "rbxassetid://11419703419",
+	["users"] = "rbxassetid://11419704393",
+	["user-plus"] = "rbxassetid://11419704371",
+	["user-minus"] = "rbxassetid://11419704349",
+	["user-x"] = "rbxassetid://11419704416",
+	["user-check"] = "rbxassetid://11419700783",
+	["award"] = "rbxassetid://11419699619",
+	["gift"] = "rbxassetid://11419701041",
+	["package"] = "rbxassetid://11419702318",
+	["shopping-cart"] = "rbxassetid://11419703580",
+	["credit-card"] = "rbxassetid://11419700022",
+	["dollar-sign"] = "rbxassetid://11419700358",
+	["trending-up"] = "rbxassetid://11419704196",
+	["trending-down"] = "rbxassetid://11419704166",
+	["bar-chart"] = "rbxassetid://11419699658",
+	["pie-chart"] = "rbxassetid://11419702513",
+	["layers"] = "rbxassetid://11419701483",
+	["grid"] = "rbxassetid://11419701150",
+	["list"] = "rbxassetid://11419701533",
+	["layout"] = "rbxassetid://11419701457",
+	["sidebar"] = "rbxassetid://11419703631",
+	["terminal"] = "rbxassetid://11419704089",
+	["code"] = "rbxassetid://11419699967",
+	["database"] = "rbxassetid://11419700142",
+	["server"] = "rbxassetid://11419703508",
+	["cpu"] = "rbxassetid://11419700034",
+	["hard-drive"] = "rbxassetid://11419701256",
+	["wifi"] = "rbxassetid://11419704502",
+	["wifi-off"] = "rbxassetid://11419704478",
+	["bluetooth"] = "rbxassetid://11419699746",
+	["cast"] = "rbxassetid://11419699856",
+	["monitor"] = "rbxassetid://11419701907",
+	["smartphone"] = "rbxassetid://11419703723",
+	["tablet"] = "rbxassetid://11419704009",
+	["watch"] = "rbxassetid://11419704458",
+	["tv"] = "rbxassetid://11419704260",
+	["speaker"] = "rbxassetid://11419703775",
+	["headphones"] = "rbxassetid://11419701282",
+	["radio"] = "rbxassetid://11419702820",
+	["printer"] = "rbxassetid://11419702730",
+	["mouse"] = "rbxassetid://11419702017",
+	["keyboard"] = "rbxassetid://11419701447",
+	["command"] = "rbxassetid://11419699964",
+	["toggle-left"] = "rbxassetid://11419704144",
+	["toggle-right"] = "rbxassetid://11419704162",
+	["sliders"] = "rbxassetid://11419703700",
+	["filter"] = "rbxassetid://11419700757",
+	["hash"] = "rbxassetid://11419701300",
+	["at-sign"] = "rbxassetid://11419699606",
+	["percent"] = "rbxassetid://11419702435",
+	["type"] = "rbxassetid://11419704278",
+	["bold"] = "rbxassetid://11419699762",
+	["italic"] = "rbxassetid://11419701409",
+	["underline"] = "rbxassetid://11419704327",
+	["align-left"] = "rbxassetid://11419699553",
+	["align-center"] = "rbxassetid://11419699538",
+	["align-right"] = "rbxassetid://11419699567",
+	["clock"] = "rbxassetid://11419699954",
+	["calendar"] = "rbxassetid://11419699770",
+	["timer"] = "rbxassetid://11419704144",
+	["hourglass"] = "rbxassetid://11419701358",
+	["rotate-cw"] = "rbxassetid://11419703186",
+	["rotate-ccw"] = "rbxassetid://11419703148",
+	["move"] = "rbxassetid://11419702046",
+	["maximize"] = "rbxassetid://11419701671",
+	["minimize"] = "rbxassetid://11419701781",
+	["maximize-2"] = "rbxassetid://11419701648",
+	["minimize-2"] = "rbxassetid://11419701757",
+	["zoom-in"] = "rbxassetid://11419704729",
+	["zoom-out"] = "rbxassetid://11419704770",
+	["crop"] = "rbxassetid://11419700055",
+	["scissors"] = "rbxassetid://11419703338",
+	["anchor"] = "rbxassetid://11419699589",
+	["paperclip"] = "rbxassetid://11419702365",
+	["flag"] = "rbxassetid://11419700823",
+	["bookmark"] = "rbxassetid://11419699777",
+	["tag"] = "rbxassetid://11419703993",
+}
+
+-- Function to get Lucide icon asset ID
+local function GetLucideIcon(iconName)
+	if not iconName then return nil end
+	
+	-- If it's already an asset ID, return as-is
+	if type(iconName) == "string" and iconName:match("^rbxassetid://") then
+		return iconName
+	end
+	
+	-- Look up in the icons table (case-insensitive)
+	local lowerName = string.lower(iconName)
+	return LucideIcons[lowerName] or LucideIcons[iconName]
+end
+
+-- Function to add custom Lucide icons
+local function AddLucideIcon(name, assetId)
+	LucideIcons[string.lower(name)] = assetId
+end
+
+-- Function to add multiple Lucide icons at once
+local function AddLucideIcons(iconsTable)
+	for name, assetId in pairs(iconsTable) do
+		LucideIcons[string.lower(name)] = assetId
+	end
+end
+
 --// Services & Functions
 local Type, Blur = nil
 local LocalPlayer = GetService(game, "Players").LocalPlayer;
@@ -290,7 +475,7 @@ end
 
 --// Library [Window]
 
-function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparency: number, MinimizeKeybind: Enum.KeyCode?, Blurring: boolean, Theme: string, FloatingIcon: { Enabled: boolean?, Icon: string?, Size: number?, Position: UDim2? }? })
+function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparency: number, MinimizeKeybind: Enum.KeyCode?, Blurring: boolean, Theme: string, FloatingIcon: { Enabled: boolean?, Icon: string?, Size: number?, Position: UDim2? }?, Navbar: { Enabled: boolean?, Title: string?, Icon: string?, Author: string? }? })
 	local Window = Clone(Screen:WaitForChild("Main"));
 	local Sidebar = Window:FindFirstChild("Sidebar");
 	local Holder = Window:FindFirstChild("Main");
@@ -303,6 +488,7 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 	local Maximized = false;
 	local BlurEnabled = false
 	local FloatingBtn = nil
+	local NavbarFrame = nil
 
 	for Index, Example in next, Window:GetDescendants() do
 		if Example.Name:find("Example") and not Examples[Example.Name] then
@@ -324,6 +510,124 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 
 	if Settings.MinimizeKeybind then
 		Setup.Keybind = Settings.MinimizeKeybind
+	end
+
+	--// Navbar System
+	local NavbarSettings = Settings.Navbar or {}
+	local NavbarEnabled = NavbarSettings.Enabled ~= false -- Default true
+	local NavbarTitle = NavbarSettings.Title or Settings.Title or "UI Library"
+	local NavbarIcon = NavbarSettings.Icon
+	local NavbarAuthor = NavbarSettings.Author
+
+	if NavbarEnabled then
+		-- Create Navbar Container
+		NavbarFrame = Instance.new("Frame")
+		NavbarFrame.Name = "Navbar"
+		NavbarFrame.Size = UDim2.new(1, 0, 0, 40)
+		NavbarFrame.Position = UDim2.new(0, 0, 0, 0)
+		NavbarFrame.BackgroundColor3 = Theme.Primary
+		NavbarFrame.BorderSizePixel = 0
+		NavbarFrame.ZIndex = 10
+		NavbarFrame.Parent = Window
+
+		-- Navbar Corner
+		local NavbarCorner = Instance.new("UICorner")
+		NavbarCorner.CornerRadius = UDim.new(0, 8)
+		NavbarCorner.Parent = NavbarFrame
+
+		-- Bottom border to separate from content
+		local NavbarBorder = Instance.new("Frame")
+		NavbarBorder.Name = "Border"
+		NavbarBorder.Size = UDim2.new(1, 0, 0, 1)
+		NavbarBorder.Position = UDim2.new(0, 0, 1, -1)
+		NavbarBorder.BackgroundColor3 = Theme.Outline
+		NavbarBorder.BorderSizePixel = 0
+		NavbarBorder.Parent = NavbarFrame
+
+		-- Navbar Icon (if provided)
+		local iconOffset = 10
+		if NavbarIcon then
+			local IconImage = Instance.new("ImageLabel")
+			IconImage.Name = "NavbarIcon"
+			IconImage.Size = UDim2.fromOffset(24, 24)
+			IconImage.Position = UDim2.new(0, 10, 0.5, -12)
+			IconImage.BackgroundTransparency = 1
+			IconImage.Image = GetLucideIcon(NavbarIcon) or NavbarIcon
+			IconImage.ImageColor3 = Theme.Icon
+			IconImage.ScaleType = Enum.ScaleType.Fit
+			IconImage.Parent = NavbarFrame
+			iconOffset = 42
+		end
+
+		-- Navbar Title
+		local TitleLabel = Instance.new("TextLabel")
+		TitleLabel.Name = "NavbarTitle"
+		TitleLabel.Size = UDim2.new(0.6, -iconOffset, 1, 0)
+		TitleLabel.Position = UDim2.new(0, iconOffset, 0, 0)
+		TitleLabel.BackgroundTransparency = 1
+		TitleLabel.Font = Enum.Font.GothamBold
+		TitleLabel.Text = NavbarTitle
+		TitleLabel.TextColor3 = Theme.Title
+		TitleLabel.TextSize = 16
+		TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+		TitleLabel.Parent = NavbarFrame
+
+		-- Navbar Author (if provided)
+		if NavbarAuthor then
+			local AuthorLabel = Instance.new("TextLabel")
+			AuthorLabel.Name = "NavbarAuthor"
+			AuthorLabel.Size = UDim2.new(0.4, -10, 1, 0)
+			AuthorLabel.Position = UDim2.new(0.6, 0, 0, 0)
+			AuthorLabel.BackgroundTransparency = 1
+			AuthorLabel.Font = Enum.Font.Gotham
+			AuthorLabel.Text = "by " .. NavbarAuthor
+			AuthorLabel.TextColor3 = Theme.Description
+			AuthorLabel.TextSize = 12
+			AuthorLabel.TextXAlignment = Enum.TextXAlignment.Right
+			AuthorLabel.Parent = NavbarFrame
+		end
+
+		-- Adjust main content position for navbar
+		if Sidebar then
+			Sidebar.Position = UDim2.new(0, 0, 0, 40)
+			Sidebar.Size = UDim2.new(0, Sidebar.Size.X.Offset, 1, -40)
+		end
+		if Holder then
+			Holder.Position = UDim2.new(0, Holder.Position.X.Offset, 0, 40)
+			Holder.Size = UDim2.new(1, -Holder.Position.X.Offset, 1, -40)
+		end
+	end
+
+	--// Navbar Control Functions
+	function Options:SetNavbarTitle(newTitle: string)
+		if NavbarFrame then
+			local titleLabel = NavbarFrame:FindFirstChild("NavbarTitle")
+			if titleLabel then
+				titleLabel.Text = newTitle
+			end
+		end
+	end
+
+	function Options:SetNavbarIcon(newIcon: string)
+		if NavbarFrame then
+			local iconImage = NavbarFrame:FindFirstChild("NavbarIcon")
+			if iconImage then
+				iconImage.Image = GetLucideIcon(newIcon) or newIcon
+			end
+		end
+	end
+
+	function Options:SetNavbarAuthor(newAuthor: string)
+		if NavbarFrame then
+			local authorLabel = NavbarFrame:FindFirstChild("NavbarAuthor")
+			if authorLabel then
+				authorLabel.Text = "by " .. newAuthor
+			end
+		end
+	end
+
+	function Options:GetNavbar()
+		return NavbarFrame
 	end
 
 	--// Floating Icon System
@@ -699,18 +1003,70 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 		})
 	end
 
-	function Options:AddInput(Settings: { Title: string, Description: string, Tab: Instance, Callback: any }) 
+	function Options:AddInput(Settings: { Title: string, Description: string, Default: string?, Placeholder: string?, ClearOnFocus: boolean?, Tab: Instance, Callback: any }) 
 		local Input = Clone(Components["Input"]);
 		local Title, Description = Options:GetLabels(Input);
 		local TextBox = Input["Main"]["Input"];
+		
+		-- Input Controller for external access
+		local InputController = {}
+		local currentValue = Settings.Default or ""
+		
+		-- Set placeholder text
+		if Settings.Placeholder then
+			TextBox.PlaceholderText = Settings.Placeholder
+		end
+		
+		-- Set default value
+		if Settings.Default then
+			TextBox.Text = Settings.Default
+		end
+		
+		-- ClearOnFocus is false by default (input persists)
+		local clearOnFocus = Settings.ClearOnFocus or false
 
 		Connect(Input.MouseButton1Click, function() 
 			TextBox:CaptureFocus()
 		end)
+		
+		-- Handle focus gained - only clear if ClearOnFocus is true
+		Connect(TextBox.Focused, function()
+			if clearOnFocus then
+				-- Clear text when focused (old behavior)
+				TextBox.Text = ""
+			end
+			-- Otherwise, keep the existing text (new default behavior)
+		end)
 
-		Connect(TextBox.FocusLost, function() 
+		Connect(TextBox.FocusLost, function(enterPressed) 
+			-- Store the current value
+			currentValue = TextBox.Text
+			-- Call the callback with the text
 			Settings.Callback(TextBox.Text)
 		end)
+		
+		-- InputController methods
+		function InputController:Set(value)
+			currentValue = tostring(value)
+			TextBox.Text = currentValue
+		end
+		
+		function InputController:Get()
+			return currentValue
+		end
+		
+		function InputController:Clear()
+			currentValue = ""
+			TextBox.Text = ""
+		end
+		
+		function InputController:SetPlaceholder(placeholder)
+			TextBox.PlaceholderText = placeholder
+		end
+		
+		function InputController:Focus()
+			TextBox:CaptureFocus()
+		end
 
 		Animations:Component(Input)
 		SetProperty(Title, { Text = Settings.Title });
@@ -720,6 +1076,8 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 			Parent = Settings.Tab,
 			Visible = true,
 		})
+		
+		return InputController
 	end
 
 	function Options:AddToggle(Settings: { Title: string, Description: string, Default: boolean, Tab: Instance, Callback: any }) 
@@ -1165,6 +1523,23 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 	Animations:Open(Window, Settings.Transparency or 0)
 
 	return Options
+end
+
+--// Library Icon Functions (accessible outside CreateWindow)
+function Library:GetIcon(iconName)
+	return GetLucideIcon(iconName)
+end
+
+function Library:AddIcon(name, assetId)
+	AddLucideIcon(name, assetId)
+end
+
+function Library:AddIcons(iconsTable)
+	AddLucideIcons(iconsTable)
+end
+
+function Library:GetAllIcons()
+	return LucideIcons
 end
 
 return Library
