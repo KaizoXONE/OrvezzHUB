@@ -511,7 +511,7 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 		Setup.Keybind = Settings.MinimizeKeybind
 	end
 
-	--// Navbar System (Redesigned)
+	--// Navbar System (Redesigned - Creates dedicated navbar at top of Window)
 	local NavbarSettings = Settings.Navbar or {}
 	local NavbarTitle = NavbarSettings.Title or Settings.Title or "UI Library"
 	local NavbarIcon = NavbarSettings.Icon
@@ -519,169 +519,212 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 	local TitleLabel = nil
 	local AuthorLabel = nil
 	local IconImage = nil
-	local TopBar = Sidebar and Sidebar:FindFirstChild("Top")
+	local NavbarHeight = 36
 
-	-- Hide Mac-style buttons (the 3 colored circles)
+	-- Hide Mac-style buttons in Sidebar.Top if they exist
+	local TopBar = Sidebar and Sidebar:FindFirstChild("Top")
 	if TopBar then
 		local ButtonsFrame = TopBar:FindFirstChild("Buttons")
 		if ButtonsFrame then
 			ButtonsFrame.Visible = false
 		end
+		-- Also hide any existing text in TopBar
+		for _, child in pairs(TopBar:GetChildren()) do
+			if child:IsA("TextLabel") or child:IsA("TextButton") then
+				child.Visible = false
+			end
+		end
 	end
 
-	-- Create navbar elements in TopBar
-	if TopBar then
-		-- Navbar Icon (if provided)
-		local iconOffset = 10
-		if NavbarIcon then
-			IconImage = Instance.new("ImageLabel")
-			IconImage.Name = "NavbarIcon"
-			IconImage.Size = UDim2.fromOffset(20, 20)
-			IconImage.Position = UDim2.new(0, 10, 0.5, -10)
-			IconImage.BackgroundTransparency = 1
-			IconImage.Image = GetLucideIcon(NavbarIcon) or NavbarIcon
-			IconImage.ImageColor3 = Theme.Icon
-			IconImage.ScaleType = Enum.ScaleType.Fit
-			IconImage.ZIndex = 5
-			IconImage.Parent = TopBar
-			iconOffset = 38
+	-- Create dedicated Navbar Frame at the TOP of the Window (above sidebar and content)
+	local NavbarFrame = Instance.new("Frame")
+	NavbarFrame.Name = "Navbar"
+	NavbarFrame.Size = UDim2.new(1, 0, 0, NavbarHeight)
+	NavbarFrame.Position = UDim2.new(0, 0, 0, 0)
+	NavbarFrame.BackgroundColor3 = Theme.Primary
+	NavbarFrame.BorderSizePixel = 0
+	NavbarFrame.ZIndex = 10
+	NavbarFrame.Parent = Window
+
+	-- Navbar Corner (only top corners rounded)
+	local NavbarCorner = Instance.new("UICorner")
+	NavbarCorner.CornerRadius = UDim.new(0, 8)
+	NavbarCorner.Parent = NavbarFrame
+
+	-- Border at bottom of navbar
+	local NavbarBorder = Instance.new("Frame")
+	NavbarBorder.Name = "Border"
+	NavbarBorder.Size = UDim2.new(1, 0, 0, 1)
+	NavbarBorder.Position = UDim2.new(0, 0, 1, -1)
+	NavbarBorder.BackgroundColor3 = Theme.Outline
+	NavbarBorder.BorderSizePixel = 0
+	NavbarBorder.ZIndex = 11
+	NavbarBorder.Parent = NavbarFrame
+
+	-- Navbar Icon (if provided)
+	local iconOffset = 12
+	if NavbarIcon then
+		IconImage = Instance.new("ImageLabel")
+		IconImage.Name = "NavbarIcon"
+		IconImage.Size = UDim2.fromOffset(20, 20)
+		IconImage.Position = UDim2.new(0, 12, 0.5, -10)
+		IconImage.BackgroundTransparency = 1
+		IconImage.Image = GetLucideIcon(NavbarIcon) or NavbarIcon
+		IconImage.ImageColor3 = Theme.Icon
+		IconImage.ScaleType = Enum.ScaleType.Fit
+		IconImage.ZIndex = 12
+		IconImage.Parent = NavbarFrame
+		iconOffset = 40
+	end
+	
+	-- Navbar Title (left side)
+	TitleLabel = Instance.new("TextLabel")
+	TitleLabel.Name = "NavbarTitle"
+	TitleLabel.Size = UDim2.new(0.5, -iconOffset, 1, 0)
+	TitleLabel.Position = UDim2.new(0, iconOffset, 0, 0)
+	TitleLabel.BackgroundTransparency = 1
+	TitleLabel.Font = Enum.Font.GothamBold
+	TitleLabel.Text = NavbarTitle
+	TitleLabel.TextColor3 = Theme.Title
+	TitleLabel.TextSize = 14
+	TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+	TitleLabel.ZIndex = 12
+	TitleLabel.Parent = NavbarFrame
+	
+	-- Navbar Author (center, before buttons)
+	if NavbarAuthor then
+		AuthorLabel = Instance.new("TextLabel")
+		AuthorLabel.Name = "NavbarAuthor"
+		AuthorLabel.Size = UDim2.new(0.3, -80, 1, 0)
+		AuthorLabel.Position = UDim2.new(0.5, -40, 0, 0)
+		AuthorLabel.BackgroundTransparency = 1
+		AuthorLabel.Font = Enum.Font.Gotham
+		AuthorLabel.Text = "by " .. NavbarAuthor
+		AuthorLabel.TextColor3 = Theme.Description
+		AuthorLabel.TextSize = 11
+		AuthorLabel.TextXAlignment = Enum.TextXAlignment.Center
+		AuthorLabel.ZIndex = 12
+		AuthorLabel.Parent = NavbarFrame
+	end
+
+	-- Create buttons container (right side of navbar)
+	local NavbarButtonsFrame = Instance.new("Frame")
+	NavbarButtonsFrame.Name = "NavbarButtons"
+	NavbarButtonsFrame.Size = UDim2.new(0, 60, 1, 0)
+	NavbarButtonsFrame.Position = UDim2.new(1, -68, 0, 0)
+	NavbarButtonsFrame.BackgroundTransparency = 1
+	NavbarButtonsFrame.ZIndex = 12
+	NavbarButtonsFrame.Parent = NavbarFrame
+
+	-- Minimize Button (-)
+	local MinimizeBtn = Instance.new("TextButton")
+	MinimizeBtn.Name = "MinimizeBtn"
+	MinimizeBtn.Size = UDim2.fromOffset(24, 24)
+	MinimizeBtn.Position = UDim2.new(0, 0, 0.5, -12)
+	MinimizeBtn.BackgroundColor3 = Theme.Interactables
+	MinimizeBtn.BorderSizePixel = 0
+	MinimizeBtn.Text = ""
+	MinimizeBtn.AutoButtonColor = false
+	MinimizeBtn.ZIndex = 13
+	MinimizeBtn.Parent = NavbarButtonsFrame
+
+	local MinimizeCorner = Instance.new("UICorner")
+	MinimizeCorner.CornerRadius = UDim.new(0, 6)
+	MinimizeCorner.Parent = MinimizeBtn
+
+	local MinimizeIcon = Instance.new("ImageLabel")
+	MinimizeIcon.Name = "Icon"
+	MinimizeIcon.Size = UDim2.fromOffset(12, 12)
+	MinimizeIcon.Position = UDim2.new(0.5, -6, 0.5, -6)
+	MinimizeIcon.BackgroundTransparency = 1
+	MinimizeIcon.Image = GetLucideIcon("minus") or "rbxassetid://11419701769"
+	MinimizeIcon.ImageColor3 = Theme.Icon
+	MinimizeIcon.ScaleType = Enum.ScaleType.Fit
+	MinimizeIcon.ZIndex = 14
+	MinimizeIcon.Parent = MinimizeBtn
+
+	-- Close Button (X)
+	local CloseBtn = Instance.new("TextButton")
+	CloseBtn.Name = "CloseBtn"
+	CloseBtn.Size = UDim2.fromOffset(24, 24)
+	CloseBtn.Position = UDim2.new(0, 30, 0.5, -12)
+	CloseBtn.BackgroundColor3 = Theme.Interactables
+	CloseBtn.BorderSizePixel = 0
+	CloseBtn.Text = ""
+	CloseBtn.AutoButtonColor = false
+	CloseBtn.ZIndex = 13
+	CloseBtn.Parent = NavbarButtonsFrame
+
+	local CloseCorner = Instance.new("UICorner")
+	CloseCorner.CornerRadius = UDim.new(0, 6)
+	CloseCorner.Parent = CloseBtn
+
+	local CloseIcon = Instance.new("ImageLabel")
+	CloseIcon.Name = "Icon"
+	CloseIcon.Size = UDim2.fromOffset(12, 12)
+	CloseIcon.Position = UDim2.new(0.5, -6, 0.5, -6)
+	CloseIcon.BackgroundTransparency = 1
+	CloseIcon.Image = GetLucideIcon("x") or "rbxassetid://11419704569"
+	CloseIcon.ImageColor3 = Theme.Icon
+	CloseIcon.ScaleType = Enum.ScaleType.Fit
+	CloseIcon.ZIndex = 14
+	CloseIcon.Parent = CloseBtn
+
+	-- Button hover effects
+	local function addButtonHover(btn, isClose)
+		Connect(btn.MouseEnter, function()
+			if isClose then
+				Tween(btn, 0.15, { BackgroundColor3 = Color3.fromRGB(255, 80, 80) })
+			else
+				Tween(btn, 0.15, { BackgroundColor3 = Color3.fromRGB(80, 150, 255) })
+			end
+		end)
+		Connect(btn.MouseLeave, function()
+			Tween(btn, 0.15, { BackgroundColor3 = Theme.Interactables })
+		end)
+	end
+
+	addButtonHover(MinimizeBtn, false)
+	addButtonHover(CloseBtn, true)
+
+	-- Button click handlers
+	Connect(MinimizeBtn.MouseButton1Click, function()
+		Opened = false
+		Window.Visible = false
+		if BlurEnabled and Blurs[Settings.Title] and Blurs[Settings.Title].root then
+			Blurs[Settings.Title].root.Parent = nil
 		end
-		
-		-- Navbar Title (left side)
-		TitleLabel = Instance.new("TextLabel")
-		TitleLabel.Name = "NavbarTitle"
-		TitleLabel.Size = UDim2.new(0.5, 0, 1, 0)
-		TitleLabel.Position = UDim2.new(0, iconOffset, 0, 0)
-		TitleLabel.BackgroundTransparency = 1
-		TitleLabel.Font = Enum.Font.GothamBold
-		TitleLabel.Text = NavbarTitle
-		TitleLabel.TextColor3 = Theme.Title
-		TitleLabel.TextSize = 14
-		TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
-		TitleLabel.ZIndex = 5
-		TitleLabel.Parent = TopBar
-		
-		-- Navbar Author (center-right, before buttons)
-		if NavbarAuthor then
-			AuthorLabel = Instance.new("TextLabel")
-			AuthorLabel.Name = "NavbarAuthor"
-			AuthorLabel.Size = UDim2.new(0.3, -70, 1, 0)
-			AuthorLabel.Position = UDim2.new(0.5, 0, 0, 0)
-			AuthorLabel.BackgroundTransparency = 1
-			AuthorLabel.Font = Enum.Font.Gotham
-			AuthorLabel.Text = "by " .. NavbarAuthor
-			AuthorLabel.TextColor3 = Theme.Description
-			AuthorLabel.TextSize = 11
-			AuthorLabel.TextXAlignment = Enum.TextXAlignment.Right
-			AuthorLabel.ZIndex = 5
-			AuthorLabel.Parent = TopBar
-		end
+	end)
 
-		-- Create new buttons container (right side)
-		local NewButtonsFrame = Instance.new("Frame")
-		NewButtonsFrame.Name = "NavbarButtons"
-		NewButtonsFrame.Size = UDim2.new(0, 60, 1, 0)
-		NewButtonsFrame.Position = UDim2.new(1, -65, 0, 0)
-		NewButtonsFrame.BackgroundTransparency = 1
-		NewButtonsFrame.ZIndex = 5
-		NewButtonsFrame.Parent = TopBar
-
-		-- Minimize Button (-)
-		local MinimizeBtn = Instance.new("TextButton")
-		MinimizeBtn.Name = "MinimizeBtn"
-		MinimizeBtn.Size = UDim2.fromOffset(24, 24)
-		MinimizeBtn.Position = UDim2.new(0, 0, 0.5, -12)
-		MinimizeBtn.BackgroundColor3 = Theme.Interactables
-		MinimizeBtn.BorderSizePixel = 0
-		MinimizeBtn.Text = ""
-		MinimizeBtn.AutoButtonColor = false
-		MinimizeBtn.ZIndex = 6
-		MinimizeBtn.Parent = NewButtonsFrame
-
-		local MinimizeCorner = Instance.new("UICorner")
-		MinimizeCorner.CornerRadius = UDim.new(0, 6)
-		MinimizeCorner.Parent = MinimizeBtn
-
-		local MinimizeIcon = Instance.new("ImageLabel")
-		MinimizeIcon.Name = "Icon"
-		MinimizeIcon.Size = UDim2.fromOffset(14, 14)
-		MinimizeIcon.Position = UDim2.new(0.5, -7, 0.5, -7)
-		MinimizeIcon.BackgroundTransparency = 1
-		MinimizeIcon.Image = GetLucideIcon("minus") or "rbxassetid://11419701769"
-		MinimizeIcon.ImageColor3 = Theme.Icon
-		MinimizeIcon.ScaleType = Enum.ScaleType.Fit
-		MinimizeIcon.ZIndex = 7
-		MinimizeIcon.Parent = MinimizeBtn
-
-		-- Close Button (X)
-		local CloseBtn = Instance.new("TextButton")
-		CloseBtn.Name = "CloseBtn"
-		CloseBtn.Size = UDim2.fromOffset(24, 24)
-		CloseBtn.Position = UDim2.new(0, 30, 0.5, -12)
-		CloseBtn.BackgroundColor3 = Theme.Interactables
-		CloseBtn.BorderSizePixel = 0
-		CloseBtn.Text = ""
-		CloseBtn.AutoButtonColor = false
-		CloseBtn.ZIndex = 6
-		CloseBtn.Parent = NewButtonsFrame
-
-		local CloseCorner = Instance.new("UICorner")
-		CloseCorner.CornerRadius = UDim.new(0, 6)
-		CloseCorner.Parent = CloseBtn
-
-		local CloseIcon = Instance.new("ImageLabel")
-		CloseIcon.Name = "Icon"
-		CloseIcon.Size = UDim2.fromOffset(14, 14)
-		CloseIcon.Position = UDim2.new(0.5, -7, 0.5, -7)
-		CloseIcon.BackgroundTransparency = 1
-		CloseIcon.Image = GetLucideIcon("x") or "rbxassetid://11419704569"
-		CloseIcon.ImageColor3 = Theme.Icon
-		CloseIcon.ScaleType = Enum.ScaleType.Fit
-		CloseIcon.ZIndex = 7
-		CloseIcon.Parent = CloseBtn
-
-		-- Button hover effects
-		local function addButtonHover(btn, isClose)
-			Connect(btn.MouseEnter, function()
-				if isClose then
-					Tween(btn, 0.15, { BackgroundColor3 = Color3.fromRGB(255, 80, 80) })
-				else
-					Tween(btn, 0.15, { BackgroundColor3 = Color3.fromRGB(80, 150, 255) })
-				end
-			end)
-			Connect(btn.MouseLeave, function()
-				Tween(btn, 0.15, { BackgroundColor3 = Theme.Interactables })
-			end)
-		end
-
-		addButtonHover(MinimizeBtn, false)
-		addButtonHover(CloseBtn, true)
-
-		-- Button click handlers
-		Connect(MinimizeBtn.MouseButton1Click, function()
-			Opened = false
-			Window.Visible = false
+	Connect(CloseBtn.MouseButton1Click, function()
+		if Opened then
 			if BlurEnabled and Blurs[Settings.Title] and Blurs[Settings.Title].root then
 				Blurs[Settings.Title].root.Parent = nil
 			end
-		end)
-
-		Connect(CloseBtn.MouseButton1Click, function()
-			if Opened then
-				if BlurEnabled and Blurs[Settings.Title] and Blurs[Settings.Title].root then
-					Blurs[Settings.Title].root.Parent = nil
-				end
-				Opened = false
-				Animations:Close(Window)
-				Window.Visible = false
-			else
-				Animations:Open(Window, Setup.Transparency)
-				Opened = true
-				if BlurEnabled and Blurs[Settings.Title] then
-					Blurs[Settings.Title].root.Parent = workspace.CurrentCamera
-				end
+			Opened = false
+			Animations:Close(Window)
+			Window.Visible = false
+		else
+			Animations:Open(Window, Setup.Transparency)
+			Opened = true
+			if BlurEnabled and Blurs[Settings.Title] then
+				Blurs[Settings.Title].root.Parent = workspace.CurrentCamera
 			end
-		end)
+		end
+	end)
+
+	-- Adjust Sidebar and Holder positions to make room for navbar
+	if Sidebar then
+		local originalPos = Sidebar.Position
+		local originalSize = Sidebar.Size
+		Sidebar.Position = UDim2.new(originalPos.X.Scale, originalPos.X.Offset, 0, NavbarHeight)
+		Sidebar.Size = UDim2.new(originalSize.X.Scale, originalSize.X.Offset, 1, -NavbarHeight)
+	end
+	if Holder then
+		local originalPos = Holder.Position
+		local originalSize = Holder.Size
+		Holder.Position = UDim2.new(originalPos.X.Scale, originalPos.X.Offset, 0, NavbarHeight)
+		Holder.Size = UDim2.new(originalSize.X.Scale, originalSize.X.Offset, 1, -NavbarHeight)
 	end
 
 	--// Navbar Control Functions
@@ -704,7 +747,7 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 	end
 
 	function Options:GetNavbar()
-		return TopBar
+		return NavbarFrame
 	end
 
 	--// Floating Icon System
