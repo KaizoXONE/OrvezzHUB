@@ -488,7 +488,6 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 	local Maximized = false;
 	local BlurEnabled = false
 	local FloatingBtn = nil
-	local NavbarFrame = nil
 
 	for Index, Example in next, Window:GetDescendants() do
 		if Example.Name:find("Example") and not Examples[Example.Name] then
@@ -512,122 +511,99 @@ function Library:CreateWindow(Settings: { Title: string, Size: UDim2, Transparen
 		Setup.Keybind = Settings.MinimizeKeybind
 	end
 
-	--// Navbar System
+	--// Navbar Title System (add to existing Sidebar.Top)
 	local NavbarSettings = Settings.Navbar or {}
-	local NavbarEnabled = NavbarSettings.Enabled ~= false -- Default true
-	local NavbarTitle = NavbarSettings.Title or Settings.Title or "UI Library"
+	local NavbarTitle = NavbarSettings.Title or Settings.Title
 	local NavbarIcon = NavbarSettings.Icon
 	local NavbarAuthor = NavbarSettings.Author
+	local TitleLabel = nil
+	local AuthorLabel = nil
+	local IconImage = nil
 
-	if NavbarEnabled then
-		-- Create Navbar Container
-		NavbarFrame = Instance.new("Frame")
-		NavbarFrame.Name = "Navbar"
-		NavbarFrame.Size = UDim2.new(1, 0, 0, 40)
-		NavbarFrame.Position = UDim2.new(0, 0, 0, 0)
-		NavbarFrame.BackgroundColor3 = Theme.Primary
-		NavbarFrame.BorderSizePixel = 0
-		NavbarFrame.ZIndex = 10
-		NavbarFrame.Parent = Window
-
-		-- Navbar Corner
-		local NavbarCorner = Instance.new("UICorner")
-		NavbarCorner.CornerRadius = UDim.new(0, 8)
-		NavbarCorner.Parent = NavbarFrame
-
-		-- Bottom border to separate from content
-		local NavbarBorder = Instance.new("Frame")
-		NavbarBorder.Name = "Border"
-		NavbarBorder.Size = UDim2.new(1, 0, 0, 1)
-		NavbarBorder.Position = UDim2.new(0, 0, 1, -1)
-		NavbarBorder.BackgroundColor3 = Theme.Outline
-		NavbarBorder.BorderSizePixel = 0
-		NavbarBorder.Parent = NavbarFrame
-
-		-- Navbar Icon (if provided)
-		local iconOffset = 10
-		if NavbarIcon then
-			local IconImage = Instance.new("ImageLabel")
-			IconImage.Name = "NavbarIcon"
-			IconImage.Size = UDim2.fromOffset(24, 24)
-			IconImage.Position = UDim2.new(0, 10, 0.5, -12)
-			IconImage.BackgroundTransparency = 1
-			IconImage.Image = GetLucideIcon(NavbarIcon) or NavbarIcon
-			IconImage.ImageColor3 = Theme.Icon
-			IconImage.ScaleType = Enum.ScaleType.Fit
-			IconImage.Parent = NavbarFrame
-			iconOffset = 42
-		end
-
-		-- Navbar Title
-		local TitleLabel = Instance.new("TextLabel")
-		TitleLabel.Name = "NavbarTitle"
-		TitleLabel.Size = UDim2.new(0.6, -iconOffset, 1, 0)
-		TitleLabel.Position = UDim2.new(0, iconOffset, 0, 0)
-		TitleLabel.BackgroundTransparency = 1
-		TitleLabel.Font = Enum.Font.GothamBold
-		TitleLabel.Text = NavbarTitle
-		TitleLabel.TextColor3 = Theme.Title
-		TitleLabel.TextSize = 16
-		TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
-		TitleLabel.Parent = NavbarFrame
-
-		-- Navbar Author (if provided)
-		if NavbarAuthor then
-			local AuthorLabel = Instance.new("TextLabel")
-			AuthorLabel.Name = "NavbarAuthor"
-			AuthorLabel.Size = UDim2.new(0.4, -10, 1, 0)
-			AuthorLabel.Position = UDim2.new(0.6, 0, 0, 0)
-			AuthorLabel.BackgroundTransparency = 1
-			AuthorLabel.Font = Enum.Font.Gotham
-			AuthorLabel.Text = "by " .. NavbarAuthor
-			AuthorLabel.TextColor3 = Theme.Description
-			AuthorLabel.TextSize = 12
-			AuthorLabel.TextXAlignment = Enum.TextXAlignment.Right
-			AuthorLabel.Parent = NavbarFrame
-		end
-
-		-- Adjust main content position for navbar
-		if Sidebar then
-			Sidebar.Position = UDim2.new(0, 0, 0, 40)
-			Sidebar.Size = UDim2.new(0, Sidebar.Size.X.Offset, 1, -40)
-		end
-		if Holder then
-			Holder.Position = UDim2.new(0, Holder.Position.X.Offset, 0, 40)
-			Holder.Size = UDim2.new(1, -Holder.Position.X.Offset, 1, -40)
+	-- Only add title elements if Navbar settings provided or Title exists
+	if NavbarTitle or NavbarIcon or NavbarAuthor then
+		local TopBar = Sidebar and Sidebar:FindFirstChild("Top")
+		
+		if TopBar then
+			-- Find the Buttons frame to position title after it
+			local ButtonsFrame = TopBar:FindFirstChild("Buttons")
+			local buttonsEndX = 0
+			
+			if ButtonsFrame then
+				buttonsEndX = ButtonsFrame.Position.X.Offset + ButtonsFrame.AbsoluteSize.X + 10
+			end
+			
+			-- Navbar Icon (if provided)
+			local iconOffset = buttonsEndX + 5
+			if NavbarIcon then
+				IconImage = Instance.new("ImageLabel")
+				IconImage.Name = "NavbarIcon"
+				IconImage.Size = UDim2.fromOffset(18, 18)
+				IconImage.Position = UDim2.new(0, iconOffset, 0.5, -9)
+				IconImage.BackgroundTransparency = 1
+				IconImage.Image = GetLucideIcon(NavbarIcon) or NavbarIcon
+				IconImage.ImageColor3 = Theme.Icon
+				IconImage.ScaleType = Enum.ScaleType.Fit
+				IconImage.ZIndex = 5
+				IconImage.Parent = TopBar
+				iconOffset = iconOffset + 24
+			end
+			
+			-- Navbar Title
+			if NavbarTitle then
+				TitleLabel = Instance.new("TextLabel")
+				TitleLabel.Name = "NavbarTitle"
+				TitleLabel.Size = UDim2.new(0.5, 0, 1, 0)
+				TitleLabel.Position = UDim2.new(0, iconOffset, 0, 0)
+				TitleLabel.BackgroundTransparency = 1
+				TitleLabel.Font = Enum.Font.GothamBold
+				TitleLabel.Text = NavbarTitle
+				TitleLabel.TextColor3 = Theme.Title
+				TitleLabel.TextSize = 14
+				TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+				TitleLabel.ZIndex = 5
+				TitleLabel.Parent = TopBar
+			end
+			
+			-- Navbar Author (if provided) - positioned at right side
+			if NavbarAuthor then
+				AuthorLabel = Instance.new("TextLabel")
+				AuthorLabel.Name = "NavbarAuthor"
+				AuthorLabel.Size = UDim2.new(0.3, -10, 1, 0)
+				AuthorLabel.Position = UDim2.new(0.7, 0, 0, 0)
+				AuthorLabel.BackgroundTransparency = 1
+				AuthorLabel.Font = Enum.Font.Gotham
+				AuthorLabel.Text = "by " .. NavbarAuthor
+				AuthorLabel.TextColor3 = Theme.Description
+				AuthorLabel.TextSize = 11
+				AuthorLabel.TextXAlignment = Enum.TextXAlignment.Right
+				AuthorLabel.ZIndex = 5
+				AuthorLabel.Parent = TopBar
+			end
 		end
 	end
 
 	--// Navbar Control Functions
 	function Options:SetNavbarTitle(newTitle: string)
-		if NavbarFrame then
-			local titleLabel = NavbarFrame:FindFirstChild("NavbarTitle")
-			if titleLabel then
-				titleLabel.Text = newTitle
-			end
+		if TitleLabel then
+			TitleLabel.Text = newTitle
 		end
 	end
 
 	function Options:SetNavbarIcon(newIcon: string)
-		if NavbarFrame then
-			local iconImage = NavbarFrame:FindFirstChild("NavbarIcon")
-			if iconImage then
-				iconImage.Image = GetLucideIcon(newIcon) or newIcon
-			end
+		if IconImage then
+			IconImage.Image = GetLucideIcon(newIcon) or newIcon
 		end
 	end
 
 	function Options:SetNavbarAuthor(newAuthor: string)
-		if NavbarFrame then
-			local authorLabel = NavbarFrame:FindFirstChild("NavbarAuthor")
-			if authorLabel then
-				authorLabel.Text = "by " .. newAuthor
-			end
+		if AuthorLabel then
+			AuthorLabel.Text = "by " .. newAuthor
 		end
 	end
 
 	function Options:GetNavbar()
-		return NavbarFrame
+		return Sidebar and Sidebar:FindFirstChild("Top")
 	end
 
 	--// Floating Icon System
