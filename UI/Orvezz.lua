@@ -9,15 +9,15 @@ local tween = game:GetService("TweenService")
 local tweeninfo = TweenInfo.new
 
 -- lucide icons
-local Lucide = {}
+local Lucide = { icons = {} } -- Initialize with empty icons table
 local success, result = pcall(function()
 	return loadstring(game:HttpGet("https://raw.githubusercontent.com/latte-soft/lucide-roblox/main/src/init.lua"))()
 end)
 
-if success then
+if success and typeof(result) == "table" then
 	Lucide = result
 else
-	warn("[UILibrary] Failed to load Lucide Icons: " .. tostring(result))
+	warn("[UILibrary] Failed to load Lucide Icons: " .. (typeof(result) == "string" and result or "Unknown error"))
 end
 
 -- additional
@@ -54,7 +54,9 @@ do
 		end
 		
 		for i, module in pairs(children or {}) do
-			module.Parent = object
+			if typeof(module) == "Instance" then
+				module.Parent = object
+			end
 		end
 		
 		return object
@@ -237,8 +239,9 @@ do
 	end
 	
 	function utility:GetIcon(name)
-		if Lucide.getIcon then
-			return Lucide.getIcon(name)
+		if Lucide and Lucide.getIcon then
+			local icon = Lucide.getIcon(name)
+			return typeof(icon) == "string" and icon or ""
 		end
 		return ""
 	end
@@ -310,6 +313,7 @@ do
 					ZIndex = 3,
 					Image = "rbxassetid://5012534273",
 					ImageColor3 = themes.DarkContrast,
+					ImageTransparency = 0.2, -- Match main window glass effect
 					ScaleType = Enum.ScaleType.Slice,
 					SliceCenter = Rect.new(4, 4, 296, 296)
 				}, {
@@ -362,6 +366,67 @@ do
 						TextSize = 15,  -- Slightly bigger title
 						TextXAlignment = Enum.TextXAlignment.Left
 					})
+				}),
+				utility:Create("ImageButton", {
+					Name = "Selection_Dim",
+					Visible = false,
+					BackgroundTransparency = 1,
+					Size = UDim2.new(1, 0, 1, 0),
+					ZIndex = 80,
+					Image = "rbxassetid://4641149554",
+					ImageColor3 = Color3.fromRGB(0, 0, 0),
+					ImageTransparency = 1
+				}),
+				utility:Create("Frame", {
+					Name = "Selection",
+					Visible = false,
+					AnchorPoint = Vector2.new(0.5, 0.5),
+					BackgroundTransparency = 1,
+					Position = UDim2.new(0.5, 0, 0.5, 0),
+					Size = UDim2.new(0, 220, 0, 0),
+					ZIndex = 100,
+					ClipsDescendants = true
+				}, {
+					utility:Create("ImageLabel", {
+						Name = "Background",
+						Size = UDim2.new(1, 0, 1, 0),
+						BackgroundTransparency = 1,
+						Image = "rbxassetid://4641149554",
+						ImageColor3 = themes.Background,
+						ImageTransparency = 0.2,
+						ScaleType = Enum.ScaleType.Slice,
+						SliceCenter = Rect.new(4, 4, 296, 296),
+						ZIndex = 101
+					}, {
+						utility:Create("ImageLabel", {
+							Name = "Shadow",
+							BackgroundTransparency = 1,
+							Position = UDim2.new(0, -15, 0, -15),
+							Size = UDim2.new(1, 30, 1, 30),
+							ZIndex = 100,
+							Image = "rbxassetid://5028857084",
+							ImageColor3 = themes.Glow,
+							ScaleType = Enum.ScaleType.Slice,
+							SliceCenter = Rect.new(24, 24, 276, 276)
+						}),
+						utility:Create("ScrollingFrame", {
+							Name = "Container",
+							Active = true,
+							BackgroundTransparency = 1,
+							BorderSizePixel = 0,
+							Position = UDim2.new(0, 8, 0, 8),
+							Size = UDim2.new(1, -16, 1, -16),
+							CanvasSize = UDim2.new(0, 0, 0, 0),
+							ZIndex = 102,
+							ScrollBarThickness = 3,
+							ScrollBarImageColor3 = themes.DarkContrast
+						}, {
+							utility:Create("UIListLayout", {
+								SortOrder = Enum.SortOrder.LayoutOrder,
+								Padding = UDim.new(0, 4)
+							})
+						})
+					})
 				})
 			})
 		})
@@ -411,6 +476,8 @@ do
 		local libInstance = setmetatable({
 			container = container,
 			pagesContainer = container.Main.Pages.Pages_Container,
+			selection = container.Main.Selection,
+			selectionDim = container.Main.Selection_Dim,
 			pages = {},
 			floatingIcon = floatingIcon
 		}, library)
@@ -432,6 +499,16 @@ do
 			end
 		end)
 		
+		-- Close overlay when clicking dim background
+		libInstance.selectionDim.MouseButton1Click:Connect(function()
+			utility:Tween(libInstance.selectionDim, {ImageTransparency = 1}, 0.2)
+			utility:Tween(libInstance.selection, {Size = UDim2.new(0, 220, 0, 0)}, 0.2)
+			delay(0.2, function()
+				libInstance.selection.Visible = false
+				libInstance.selectionDim.Visible = false
+			end)
+		end)
+
 		-- Toggle UI on click (but not on drag)
 		floatingIcon.MouseButton1Click:Connect(function()
 			if not isDragging then
@@ -540,6 +617,7 @@ do
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.LightContrast,
+			ImageTransparency = 0.2, -- Glass consistency
 			ScaleType = Enum.ScaleType.Slice,
 			SliceCenter = Rect.new(4, 4, 296, 296),
 			ClipsDescendants = true
@@ -632,7 +710,7 @@ do
 		
 		if self.position then
 			utility:Tween(container, {
-				Size = UDim2.new(0, 511, 0, 428),
+				Size = UDim2.new(0, 511, 0, 400), -- Updated to match user change (400)
 				Position = self.position
 			}, 0.2)
 			wait(0.2)
@@ -651,7 +729,7 @@ do
 			
 			utility:Tween(container, {
 				Size = UDim2.new(0, 511, 0, 0),
-				Position = self.position + UDim2.new(0, 0, 0, 428)
+				Position = self.position + UDim2.new(0, 0, 0, 400) -- Updated to match user change (400)
 			}, 0.2)
 			wait(0.2)
 		end
@@ -1909,7 +1987,7 @@ do
 					Text = title,
 					TextColor3 = themes.TextColor,
 					TextSize = 12,
-					TextTransparency = 0.10000000149012,
+					TextTransparency = 0.1,
 					TextXAlignment = Enum.TextXAlignment.Left
 				}),
 				iconName and utility:Create("ImageLabel", {
@@ -1932,61 +2010,22 @@ do
 					Image = "rbxassetid://5012539403",
 					ImageColor3 = themes.TextColor
 				})
-			}),
-			utility:Create("ImageLabel", {
-				Name = "List",
-				BackgroundTransparency = 1,
-				BorderSizePixel = 0,
-				Size = UDim2.new(1, 0, 1, -34),
-				ZIndex = 2,
-				Image = "rbxassetid://5028857472",
-				ImageColor3 = themes.Background,
-				ScaleType = Enum.ScaleType.Slice,
-				SliceCenter = Rect.new(2, 2, 298, 298)
-			}, {
-				utility:Create("ScrollingFrame", {
-					Name = "Frame",
-					Active = true,
-					BackgroundTransparency = 1,
-					BorderSizePixel = 0,
-					Position = UDim2.new(0, 4, 0, 4),
-					Size = UDim2.new(1, -8, 1, -8),
-					CanvasSize = UDim2.new(0, 0, 0, 0),
-					ZIndex = 2,
-					ScrollBarThickness = 3,
-					ScrollBarImageColor3 = themes.DarkContrast
-				}, {
-					utility:Create("UIListLayout", {
-						SortOrder = Enum.SortOrder.LayoutOrder,
-						Padding = UDim.new(0, 4)
-					})
-				})
 			})
 		})
 		
 		table.insert(self.modules, dropdown)
 		
-		local open = false
 		local selected = {}
-		
-		local function updateSize()
-			local entries = 0
-			for i, button in pairs(dropdown.List.Frame:GetChildren()) do
-				if button:IsA("ImageButton") then
-					entries = entries + 1
-				end
+		local libRef = self.page.library
+
+		local function updateHeader()
+			if multi then
+				dropdown.Header.Title.Text = title .. (#selected > 0 and (" (" .. #selected .. ")") or "")
+			else
+				dropdown.Header.Title.Text = selected[1] or title
 			end
-			
-			local targetSize = open and (math.clamp(entries, 0, 3) * 34 + 38) or 30
-			utility:Tween(dropdown, {Size = UDim2.new(1, 0, 0, targetSize)}, 0.3)
-			utility:Tween(dropdown.Header.Arrow, {Rotation = open and 180 or 0}, 0.3)
 		end
-		
-		dropdown.Header.MouseButton1Click:Connect(function()
-			open = not open
-			updateSize()
-		end)
-		
+
 		local function onSelect(value)
 			if multi then
 				if table.find(selected, value) then
@@ -1994,74 +2033,95 @@ do
 				else
 					table.insert(selected, value)
 				end
-				
-				if callback then
-					callback(selected)
-				end
+				if callback then callback(selected) end
 			else
 				selected = {value}
-				dropdown.Header.Title.Text = value
-				open = false
-				updateSize()
-				
-				if callback then
-					callback(value)
-				end
+				if callback then callback(value) end
 			end
-			
-			-- Update visuals
-			for i, button in pairs(dropdown.List.Frame:GetChildren()) do
-				if button:IsA("ImageButton") then
-					local isSelected = table.find(selected, button.TextLabel.Text)
-					utility:Tween(button, {ImageColor3 = isSelected and themes.Accent or themes.DarkContrast}, 0.2)
-				end
-			end
+			updateHeader()
 		end
-		
-		for i, value in pairs(list) do
-			local button = utility:Create("ImageButton", {
-				Parent = dropdown.List.Frame,
-				BackgroundTransparency = 1,
-				BorderSizePixel = 0,
-				Size = UDim2.new(1, 0, 0, 30),
-				ZIndex = 2,
-				Image = "rbxassetid://5028857472",
-				ImageColor3 = themes.DarkContrast,
-				ScaleType = Enum.ScaleType.Slice,
-				SliceCenter = Rect.new(2, 2, 298, 298)
-			}, {
-				utility:Create("TextLabel", {
+
+		dropdown.Header.MouseButton1Click:Connect(function()
+			local overlay = libRef.selection
+			local dim = libRef.selectionDim
+			local background = overlay.Background
+			local container = background.Container
+			
+			-- Clear existing buttons
+			for _, child in pairs(container:GetChildren()) do
+				if child:IsA("ImageButton") then child:Destroy() end
+			end
+
+			-- Populate items
+			for _, value in pairs(list) do
+				local item = utility:Create("ImageButton", {
+					Parent = container,
 					BackgroundTransparency = 1,
-					Position = UDim2.new(0, 10, 0, 0),
-					Size = UDim2.new(1, -10, 1, 0),
-					ZIndex = 3,
-					Font = Enum.Font.Gotham,
-					Text = value,
-					TextColor3 = themes.TextColor,
-					TextSize = 12,
-					TextXAlignment = "Left",
-					TextTransparency = 0.10000000149012
+					BorderSizePixel = 0,
+					Size = UDim2.new(1, 0, 0, 30),
+					ZIndex = 110,
+					Image = "rbxassetid://5028857472",
+					ImageColor3 = table.find(selected, value) and themes.Accent or themes.DarkContrast,
+					ScaleType = Enum.ScaleType.Slice,
+					SliceCenter = Rect.new(2, 2, 298, 298)
+				}, {
+					utility:Create("TextLabel", {
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0, 10, 0, 0),
+						Size = UDim2.new(1, -10, 1, 0),
+						ZIndex = 111,
+						Font = Enum.Font.Gotham,
+						Text = value,
+						TextColor3 = themes.TextColor,
+						TextSize = 12,
+						TextXAlignment = "Left"
+					})
 				})
-			})
+
+				item.MouseButton1Click:Connect(function()
+					onSelect(value)
+					if not multi then
+						-- Close on single select
+						utility:Tween(dim, {ImageTransparency = 1}, 0.2)
+						utility:Tween(overlay, {Size = UDim2.new(0, 220, 0, 0)}, 0.2)
+						delay(0.2, function()
+							overlay.Visible = false
+							dim.Visible = false
+						end)
+					else
+						-- Visual feedback for multi-select
+						utility:Tween(item, {ImageColor3 = table.find(selected, value) and themes.Accent or themes.DarkContrast}, 0.2)
+					end
+				end)
+			end
+
+			-- Setup container height (max 5 items)
+			local count = #list
+			local targetHeight = (math.clamp(count, 1, 5) * 34) + 16 -- (+ padding)
+			container.CanvasSize = UDim2.new(0, 0, 0, (count * 34) - 4)
+
+			-- Show with animation
+			dim.Visible = true
+			overlay.Visible = true
+			overlay.Size = UDim2.new(0, 220, 0, 0)
+			dim.ImageTransparency = 1
 			
-			button.MouseButton1Click:Connect(function()
-				onSelect(value)
-			end)
-		end
-		
+			utility:Tween(dim, {ImageTransparency = 0.5}, 0.2)
+			utility:Tween(overlay, {Size = UDim2.new(0, 220, 0, targetHeight)}, 0.2)
+		end)
+
 		if default then
 			if multi and type(default) == "table" then
-				for _, v in pairs(default) do 
-					onSelect(v)
-				end
+				for _, v in pairs(default) do onSelect(v) end
 			else
 				onSelect(default)
 			end
 		end
-		
-		updateSize()
+
+		updateHeader()
 		return dropdown
 	end
+
 	
 	-- Legacy support
 	function section:addDropdown(title, list, callback)
@@ -2108,7 +2168,7 @@ do
 			page:Resize()
 			
 			for i, section in pairs(page.sections) do
-				section.container.Parent.ImageTransparency = 0
+				section.container.Parent.ImageTransparency = 0.2
 			end
 			
 			if sectionsRequired < 0 then -- "hides" some sections
@@ -2131,7 +2191,7 @@ do
 					local section = page.sections[i].container.Parent
 					
 					section.ImageTransparency = 1
-					utility:Tween(section, {ImageTransparency = 0}, 0.05)
+					utility:Tween(section, {ImageTransparency = 0.2}, 0.05)
 				end
 			end
 			
