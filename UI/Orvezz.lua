@@ -325,8 +325,8 @@ do
 			utility:Create("ImageLabel", {
 				Name = "Main",
 				BackgroundTransparency = 1,
-				Position = UDim2.new(0.25, 0, 0.052435593, 0),
-				Size = UDim2.new(0, 511, 0, 400),
+				Position = UDim2.new(0.5, -275, 0.5, -225),  -- Centered position
+				Size = UDim2.new(0, 550, 0, 450),  -- Larger size for 40px elements
 				Image = "rbxassetid://4641149554",
 				ImageColor3 = themes.Background,
 				ImageTransparency = mainTransparency, -- Use dynamic transparency
@@ -357,8 +357,8 @@ do
 					Name = "Pages",
 					BackgroundTransparency = 1,
 					ClipsDescendants = true,
-					Position = UDim2.new(0, 0, 0, 58),  -- Moved down from 38 to create spacing below TopBar (48px + 10px)
-					Size = UDim2.new(0, 126, 1, -58),  -- Adjusted size accordingly
+					Position = UDim2.new(0, 0, 0, 48),  -- Start directly below TopBar (no gap)
+					Size = UDim2.new(0, 126, 1, -48),  -- Adjusted size accordingly
 					ZIndex = 3,
 					Image = "rbxassetid://5012534273",
 					ImageColor3 = themes.DarkContrast,
@@ -509,7 +509,7 @@ do
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			BackgroundTransparency = 1,
 			Position = UDim2.new(0, 100, 0.9, 0),
-			Size = UDim2.new(0, 60, 0, 60),
+			Size = UDim2.new(0, 64, 0, 64),  -- Standardized size
 			ZIndex = 10,
 			ImageColor3 = themes.Background,
 		}, {
@@ -601,13 +601,13 @@ do
 		-- Hover animation
 		floatingIcon.MouseEnter:Connect(function()
 			utility:Tween(floatingIcon, {
-				Size = UDim2.new(0, 76, 0, 76)  -- Hover bigger
+				Size = UDim2.new(0, 72, 0, 72)  -- Hover slightly bigger
 			}, 0.2)
 		end)
 		
 		floatingIcon.MouseLeave:Connect(function()
 			utility:Tween(floatingIcon, {
-				Size = UDim2.new(0, 70, 0, 70)  -- Back to normal
+				Size = UDim2.new(0, 64, 0, 64)  -- Back to normal
 			}, 0.2)
 		end)
 		
@@ -706,18 +706,8 @@ do
 			BackgroundTransparency = 1,
 			Size = UDim2.new(1, -10, 0, 28),
 			Image = "rbxassetid://5028857472",
-			ImageColor3 = themes.LightContrast,
 			ImageTransparency = 0.2, -- Glass consistency
 		}, {
-			utility:Create("UICorner", {
-				CornerRadius = UDim.new(0, 8)
-			}),
-			utility:Create("UIStroke", {
-				Color = themes.TextColor,
-				Thickness = 1,
-				Transparency = 0.8,
-				ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-			}),
 			utility:Create("Frame", {
 				Name = "Container",
 				Active = true,
@@ -953,7 +943,7 @@ do
 			Parent = self.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
-			Size = UDim2.new(1, 0, 0, 30),
+			Size = UDim2.new(1, 0, 0, 40),
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
@@ -1046,7 +1036,7 @@ do
 			Parent = self.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
-			Size = UDim2.new(1, 0, 0, 30),
+			Size = UDim2.new(1, 0, 0, 40),
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
@@ -1148,7 +1138,7 @@ do
 			Parent = self.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
-			Size = UDim2.new(1, 0, 0, 30),
+			Size = UDim2.new(1, 0, 0, 40),
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
@@ -1280,7 +1270,7 @@ do
 			Parent = self.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
-			Size = UDim2.new(1, 0, 0, 30),
+			Size = UDim2.new(1, 0, 0, 40),
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
@@ -1393,7 +1383,7 @@ do
 			Parent = self.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
-			Size = UDim2.new(1, 0, 0, 30),
+			Size = UDim2.new(1, 0, 0, 40),
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
@@ -1962,7 +1952,7 @@ do
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Position = UDim2.new(0.292817682, 0, 0.299145311, 0),
-			Size = UDim2.new(1, 0, 0, desc and 65 or 50), -- Dynamic height
+			Size = UDim2.new(1, 0, 0, desc and 75 or 60), -- Dynamic height (increased)
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
@@ -2147,7 +2137,7 @@ do
 			Name = "Dropdown",
 			Parent = self.container,
 			BackgroundTransparency = 1,
-			Size = UDim2.new(1, 0, 0, 30),
+			Size = UDim2.new(1, 0, 0, 40),
 			ClipsDescendants = true
 		}, {
 			utility:Create("UIListLayout", {
@@ -2158,7 +2148,7 @@ do
 				Name = "Header",
 				BackgroundTransparency = 1,
 				BorderSizePixel = 0,
-				Size = UDim2.new(1, 0, 0, 30),
+				Size = UDim2.new(1, 0, 0, 40),
 				ZIndex = 2,
 				Image = "rbxassetid://5028857472",
 				ImageColor3 = themes.DarkContrast,
@@ -2254,7 +2244,7 @@ do
 					Parent = container,
 					BackgroundTransparency = 1,
 					BorderSizePixel = 0,
-					Size = UDim2.new(1, 0, 0, 30),
+					Size = UDim2.new(1, 0, 0, 40),
 					ZIndex = 110,
 					Image = "rbxassetid://5028857472",
 					ImageColor3 = table.find(selected, value) and themes.Accent or themes.DarkContrast,
@@ -2655,7 +2645,7 @@ do
 				Parent = dropdown.List.Frame,
 				BackgroundTransparency = 1,
 				BorderSizePixel = 0,
-				Size = UDim2.new(1, 0, 0, 30),
+				Size = UDim2.new(1, 0, 0, 40),
 				ZIndex = 2,
 				Image = "rbxassetid://5028857472",
 				ImageColor3 = themes.DarkContrast,
