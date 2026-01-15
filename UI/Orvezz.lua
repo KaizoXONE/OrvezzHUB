@@ -508,7 +508,7 @@ do
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.Background,
 			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(2, 2, 298, 298)
+			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
 			utility:Create("ImageLabel", {
 				Name = "Shadow",
@@ -628,7 +628,7 @@ do
 				Font = Enum.Font.Gotham,
 				Text = title,
 				TextColor3 = themes.TextColor,
-				TextSize = 14,  -- Increased from 12
+				TextSize = 14,
 				TextTransparency = 0.65,
 				TextXAlignment = Enum.TextXAlignment.Left
 			}),
@@ -639,7 +639,7 @@ do
 				Position = UDim2.new(0, 12, 0.5, 0),
 				Size = UDim2.new(0, 16, 0, 16),
 				ZIndex = 3,
-				Image = "rbxassetid://" .. tostring(icon),
+				Image = utility:GetIcon(icon), -- Supported Lucide icon names
 				ImageColor3 = themes.TextColor,
 				ImageTransparency = 0.64,
 				ScaleType = Enum.ScaleType.Fit
@@ -712,20 +712,20 @@ do
 				utility:Create("TextLabel", {
 					Name = "Title",
 					BackgroundTransparency = 1,
-					Position = UDim2.new(0, iconId and 24 or 0, 0, 0),
-					Size = UDim2.new(1, iconId and -24 or 0, 0, 20),
+					Position = UDim2.new(0, 0, 0, 0),
+					Size = UDim2.new(1, 0, 0, 20),
 					ZIndex = 2,
 					Font = Enum.Font.GothamSemibold,
 					Text = title,
 					TextColor3 = themes.TextColor,
 					TextSize = 12,
-					TextXAlignment = Enum.TextXAlignment.Left,
+					TextXAlignment = Enum.TextXAlignment.Center, -- Centered Title
 					TextTransparency = 1
 				}),
 				iconId and utility:Create("ImageLabel", {
 					Name = "Icon",
 					BackgroundTransparency = 1,
-					Position = UDim2.new(0, 0, 0, 2),
+					Position = UDim2.new(0.5, -60, 0, 2), -- Positioned relative to center
 					Size = UDim2.new(0, 16, 0, 16),
 					ZIndex = 2,
 					Image = iconId,
@@ -941,7 +941,7 @@ do
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
 			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(2, 2, 298, 298)
+			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
 			utility:Create("TextLabel", {
 				Name = "Title",
@@ -1033,7 +1033,7 @@ do
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
 			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(2, 2, 298, 298)
+			SliceCenter = Rect.new(8, 8, 292, 292)
 		},{
 			utility:Create("TextLabel", {
 				Name = "Title",
@@ -1135,7 +1135,7 @@ do
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
 			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(2, 2, 298, 298)
+			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
 			utility:Create("TextLabel", {
 				Name = "Title",
@@ -1259,7 +1259,7 @@ do
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
 			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(2, 2, 298, 298)
+			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
 			utility:Create("TextLabel", {
 				Name = "Title",
@@ -1364,7 +1364,7 @@ do
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
 			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(2, 2, 298, 298)
+			SliceCenter = Rect.new(8, 8, 292, 292)
 		},{
 			utility:Create("TextLabel", {
 				Name = "Title",
@@ -1905,7 +1905,7 @@ do
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
 			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(2, 2, 298, 298)
+			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
 			utility:Create("TextLabel", {
 				Name = "Title",
