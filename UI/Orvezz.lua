@@ -9,15 +9,23 @@ local tween = game:GetService("TweenService")
 local tweeninfo = TweenInfo.new
 
 -- lucide icons
-local Lucide = { icons = {} } -- Initialize with empty icons table
+local Lucide = { icons = {} }
 local success, result = pcall(function()
-	return loadstring(game:HttpGet("https://raw.githubusercontent.com/latte-soft/lucide-roblox/main/src/init.lua"))()
+	-- Try multiple sources for resilience
+	-- Source 1: Latte-soft (Most common)
+	local content = game:HttpGet("https://raw.githubusercontent.com/latte-soft/lucide-roblox/main/lucide-roblox.luau")
+	if typeof(content) ~= "string" or #content < 100 then
+		-- Source 2: Alternative root path
+		content = game:HttpGet("https://raw.githubusercontent.com/latte-soft/lucide-roblox/main/src/init.lua")
+	end
+	
+	if typeof(content) == "string" and #content > 100 then
+		return loadstring(content)()
+	end
 end)
 
 if success and typeof(result) == "table" then
 	Lucide = result
-else
-	warn("[UILibrary] Failed to load Lucide Icons: " .. (typeof(result) == "string" and result or "Unknown error"))
 end
 
 -- additional
@@ -239,11 +247,23 @@ do
 	end
 	
 	function utility:GetIcon(name)
+		-- Core fallback icons (Roblox Asset IDs)
+		local fallbacks = {
+			home = "rbxassetid://10723345633",
+			settings = "rbxassetid://10734950309",
+			list = "rbxassetid://10734949511",
+			user = "rbxassetid://10747373176",
+			chevron = "rbxassetid://10734943674"
+		}
+
 		if Lucide and Lucide.getIcon then
-			local icon = Lucide.getIcon(name)
-			return typeof(icon) == "string" and icon or ""
+			local success, icon = pcall(Lucide.getIcon, name)
+			if success and typeof(icon) == "string" and icon ~= "" then
+				return icon
+			end
 		end
-		return ""
+		
+		return fallbacks[name] or ""
 	end
 	
 end
@@ -449,7 +469,7 @@ do
 				Name = "Shadow",
 				BackgroundTransparency = 1,
 				Position = UDim2.new(0, -10, 0, -10),
-				Size = UDim2.new(1, 20, 1, 20),
+				Size = UDim2.new(1, 30, 1, 30),
 				ZIndex = 9,
 				Image = "rbxassetid://5028857084",
 				ImageColor3 = Color3.fromRGB(0, 0, 0),
