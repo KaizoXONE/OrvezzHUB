@@ -940,9 +940,10 @@ do
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
-			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
+			utility:Create("UICorner", {
+				CornerRadius = UDim.new(0, 8)
+			}),
 			utility:Create("TextLabel", {
 				Name = "Title",
 				BackgroundTransparency = 1,
@@ -1134,9 +1135,10 @@ do
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
-			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
+			utility:Create("UICorner", {
+				CornerRadius = UDim.new(0, 8)
+			}),
 			utility:Create("TextLabel", {
 				Name = "Title",
 				AnchorPoint = Vector2.new(0, 0.5),
@@ -1258,9 +1260,10 @@ do
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
-			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
+			utility:Create("UICorner", {
+				CornerRadius = UDim.new(0, 8)
+			}),
 			utility:Create("TextLabel", {
 				Name = "Title",
 				AnchorPoint = Vector2.new(0, 0.5),
@@ -1904,9 +1907,10 @@ do
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
-			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
+			utility:Create("UICorner", {
+				CornerRadius = UDim.new(0, 8)
+			}),
 			utility:Create("TextLabel", {
 				Name = "Title",
 				BackgroundTransparency = 1,
