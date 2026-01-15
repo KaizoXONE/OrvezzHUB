@@ -299,7 +299,7 @@ do
 					Name = "TopBar",
 					BackgroundTransparency = 1,
 					ClipsDescendants = true,
-					Size = UDim2.new(1, 0, 0, 38),
+					Size = UDim2.new(1, 0, 0, 48),  -- Increased from 38 to 48
 					ZIndex = 5,
 					Image = "rbxassetid://4595286933",
 					ImageColor3 = themes.Accent,
@@ -310,8 +310,8 @@ do
 						Name = "Logo",
 						AnchorPoint = Vector2.new(0, 0.5),
 						BackgroundTransparency = 1,
-						Position = UDim2.new(0, 8, 0.5, 0),
-						Size = UDim2.new(0, 24, 0, 24),
+						Position = UDim2.new(0, 10, 0.5, 0),  -- Adjusted for new height
+						Size = UDim2.new(0, 28, 0, 28),  -- Slightly bigger logo
 						ZIndex = 6,
 						Image = icon,
 						ScaleType = Enum.ScaleType.Fit
@@ -320,13 +320,13 @@ do
 						Name = "Title",
 						AnchorPoint = Vector2.new(0, 0.5),
 						BackgroundTransparency = 1,
-						Position = UDim2.new(0, 38, 0, 19),  -- Adjusted for logo space
-						Size = UDim2.new(1, -46, 0, 16),
+						Position = UDim2.new(0, 44, 0.5, 0),  -- Adjusted for logo + new height
+						Size = UDim2.new(1, -50, 0, 18),
 						ZIndex = 5,
 						Font = Enum.Font.GothamBold,
 						Text = title,
 						TextColor3 = themes.TextColor,
-						TextSize = 14,
+						TextSize = 15,  -- Slightly bigger title
 						TextXAlignment = Enum.TextXAlignment.Left
 					})
 				})
@@ -340,7 +340,7 @@ do
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			BackgroundTransparency = 1,
 			Position = UDim2.new(0, 100, 0.9, 0),
-			Size = UDim2.new(0, 60, 0, 60),
+			Size = UDim2.new(0, 70, 0, 70),  -- Increased from 60
 			ZIndex = 10,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.Background,
@@ -364,7 +364,7 @@ do
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				BackgroundTransparency = 1,
 				Position = UDim2.new(0.5, 0, 0.5, 0),
-				Size = UDim2.new(0, 40, 0, 40),
+				Size = UDim2.new(0, 42, 0, 42),  -- Logo smaller than background
 				ZIndex = 15,  -- Increased to be above everything
 				Image = icon,
 				ScaleType = Enum.ScaleType.Fit
@@ -394,13 +394,13 @@ do
 		-- Hover animation
 		floatingIcon.MouseEnter:Connect(function()
 			utility:Tween(floatingIcon, {
-				Size = UDim2.new(0, 65, 0, 65)
+				Size = UDim2.new(0, 76, 0, 76)  -- Hover bigger
 			}, 0.2)
 		end)
 		
 		floatingIcon.MouseLeave:Connect(function()
 			utility:Tween(floatingIcon, {
-				Size = UDim2.new(0, 60, 0, 60)
+				Size = UDim2.new(0, 70, 0, 70)  -- Back to normal
 			}, 0.2)
 		end)
 		
@@ -433,7 +433,7 @@ do
 				Font = Enum.Font.Gotham,
 				Text = title,
 				TextColor3 = themes.TextColor,
-				TextSize = 12,
+				TextSize = 14,  -- Increased from 12
 				TextTransparency = 0.65,
 				TextXAlignment = Enum.TextXAlignment.Left
 			}),
@@ -584,7 +584,7 @@ do
 			}, 0.2)
 			wait(0.2)
 			
-			utility:Tween(topbar, {Size = UDim2.new(1, 0, 0, 38)}, 0.2)
+			utility:Tween(topbar, {Size = UDim2.new(1, 0, 0, 48)}, 0.2)  -- Updated from 38 to 48
 			wait(0.2)
 			
 			container.ClipsDescendants = false
