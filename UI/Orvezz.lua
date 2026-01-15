@@ -280,9 +280,40 @@ do
 	section.__index = section
 	library.name = "Kaizo Hub"
 	
+	-- new methods for modern syntax
+	function library:CreateWindow(config)
+		config = utility:ValidateConfig(config, {
+			Title = {Type = "string", Required = true},
+			Author = {Type = "string", Required = false},
+			Transparent = {Type = "boolean", Default = true},
+			BackgroundImageTransparency = {Type = "number", Default = 0.2},
+			ScrollBarEnabled = {Type = "boolean", Default = true}
+		})
+		
+		-- Also set global defaults if config provides them
+		library.ScrollBarEnabled = config.ScrollBarEnabled
+		
+		return library.new(config.Title, nil, config)
+	end
+
+	function library:Tab(config)
+		config = utility:ValidateConfig(config, {
+			Title = {Type = "string", Required = true},
+			Icon = {Type = "string", Required = false}
+		})
+		return self:addPage(config.Title, config.Icon)
+	end
+	
 	-- new classes
 	
-	function library.new(title, icon)
+	function library.new(title, icon, config)
+		-- Handle both legacy (title, icon) and new config-based calls
+		local author = config and config.Author or ""
+		local mainTransparency = config and config.BackgroundImageTransparency or 0.2
+		if config and config.Transparent == false then
+			mainTransparency = 0
+		end
+		
 		-- Default icon if not provided
 		icon = icon or "rbxassetid://99140467467940"
 		
@@ -298,7 +329,7 @@ do
 				Size = UDim2.new(0, 511, 0, 400),
 				Image = "rbxassetid://4641149554",
 				ImageColor3 = themes.Background,
-				ImageTransparency = 0.2, -- Semi-transparent for glass effect
+				ImageTransparency = mainTransparency, -- Use dynamic transparency
 				ScaleType = Enum.ScaleType.Slice,
 				SliceCenter = Rect.new(4, 4, 296, 296)
 			}, {
@@ -385,6 +416,20 @@ do
 						TextColor3 = themes.TextColor,
 						TextSize = 15,  -- Slightly bigger title
 						TextXAlignment = Enum.TextXAlignment.Left
+					}),
+					utility:Create("TextLabel", { -- author
+						Name = "Author",
+						AnchorPoint = Vector2.new(1, 0.5),
+						BackgroundTransparency = 1,
+						Position = UDim2.new(1, -10, 0.5, 0),
+						Size = UDim2.new(0, 100, 0, 18),
+						ZIndex = 5,
+						Font = Enum.Font.Gotham,
+						Text = author,
+						TextColor3 = themes.TextColor,
+						TextSize = 12,
+						TextTransparency = 0.6,
+						TextXAlignment = Enum.TextXAlignment.Right
 					})
 				}),
 				utility:Create("ImageButton", {
@@ -601,6 +646,10 @@ do
 			}) or {}
 		})
 		
+		-- Support library.ScrollBarEnabled from config
+		local scrollEnabled = library.ScrollBarEnabled
+		if scrollEnabled == nil then scrollEnabled = true end
+
 		local container = utility:Create("ScrollingFrame", {
 			Name = title,
 			Parent = library.container.Main,
@@ -610,7 +659,7 @@ do
 			Position = UDim2.new(0, 134, 0, 46),
 			Size = UDim2.new(1, -142, 1, -56),
 			CanvasSize = UDim2.new(0, 0, 0, 466),
-			ScrollBarThickness = 3,
+			ScrollBarThickness = scrollEnabled and 3 or 0,
 			ScrollBarImageColor3 = themes.DarkContrast,
 			Visible = false
 		}, {
@@ -628,7 +677,17 @@ do
 		}, page)
 	end
 	
-	function section.new(page, title)
+	function page:Section(config)
+		config = utility:ValidateConfig(config, {
+			Title = {Type = "string", Required = true},
+			Icon = {Type = "string", Required = false}
+		})
+		return self:addSection(config.Title, config.Icon)
+	end
+
+	function section.new(page, title, icon)
+		local iconId = icon and utility:GetIcon(icon)
+		
 		local container = utility:Create("ImageLabel", {
 			Name = title,
 			Parent = page.container,
@@ -653,7 +712,8 @@ do
 				utility:Create("TextLabel", {
 					Name = "Title",
 					BackgroundTransparency = 1,
-					Size = UDim2.new(1, 0, 0, 20),
+					Position = UDim2.new(0, iconId and 24 or 0, 0, 0),
+					Size = UDim2.new(1, iconId and -24 or 0, 0, 20),
 					ZIndex = 2,
 					Font = Enum.Font.GothamSemibold,
 					Text = title,
@@ -662,6 +722,17 @@ do
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextTransparency = 1
 				}),
+				iconId and utility:Create("ImageLabel", {
+					Name = "Icon",
+					BackgroundTransparency = 1,
+					Position = UDim2.new(0, 0, 0, 2),
+					Size = UDim2.new(0, 16, 0, 16),
+					ZIndex = 2,
+					Image = iconId,
+					ImageColor3 = themes.TextColor,
+					ImageTransparency = 1,
+					ScaleType = Enum.ScaleType.Fit
+				}) or {},
 				utility:Create("UIListLayout", {
 					SortOrder = Enum.SortOrder.LayoutOrder,
 					Padding = UDim.new(0, 4)
@@ -1806,14 +1877,30 @@ do
 		return colorpicker
 	end
 	
-	function section:addSlider(title, default, min, max, callback)
+	function section:Slider(config)
+		config = utility:ValidateConfig(config, {
+			Title = {Type = "string", Required = true},
+			Desc = {Type = "string", Required = false},
+			Step = {Type = "number", Default = 1},
+			Value = {Type = "table", Required = true},
+			Callback = {Type = "function", Required = false}
+		})
+		
+		local min = config.Value.Min or 0
+		local max = config.Value.Max or 100
+		local default = config.Value.Default or min
+		
+		return self:addSlider(config.Title, default, min, max, config.Callback, config.Desc, config.Step)
+	end
+
+	function section:addSlider(title, default, min, max, callback, desc, step)
 		local slider = utility:Create("ImageButton", {
 			Name = "Slider",
 			Parent = self.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Position = UDim2.new(0.292817682, 0, 0.299145311, 0),
-			Size = UDim2.new(1, 0, 0, 50),
+			Size = UDim2.new(1, 0, 0, desc and 65 or 50), -- Dynamic height
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.DarkContrast,
@@ -1823,21 +1910,34 @@ do
 			utility:Create("TextLabel", {
 				Name = "Title",
 				BackgroundTransparency = 1,
-				Position = UDim2.new(0, 10, 0, 6),
+				Position = UDim2.new(0, 10, 0, 8),
 				Size = UDim2.new(0.5, 0, 0, 16),
 				ZIndex = 3,
 				Font = Enum.Font.Gotham,
 				Text = title,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
-				TextTransparency = 0.10000000149012,
+				TextTransparency = 0.1,
 				TextXAlignment = Enum.TextXAlignment.Left
 			}),
+			desc and utility:Create("TextLabel", {
+				Name = "Description",
+				BackgroundTransparency = 1,
+				Position = UDim2.new(0, 10, 0, 22),
+				Size = UDim2.new(1, -20, 0, 14),
+				ZIndex = 3,
+				Font = Enum.Font.Gotham,
+				Text = desc,
+				TextColor3 = themes.TextColor,
+				TextSize = 10,
+				TextTransparency = 0.5,
+				TextXAlignment = Enum.TextXAlignment.Left
+			}) or {},
 			utility:Create("TextBox", {
 				Name = "TextBox",
 				BackgroundTransparency = 1,
 				BorderSizePixel = 0,
-				Position = UDim2.new(1, -30, 0, 6),
+				Position = UDim2.new(1, -30, 0, 8),
 				Size = UDim2.new(0, 20, 0, 16),
 				ZIndex = 3,
 				Font = Enum.Font.GothamSemibold,
@@ -1849,7 +1949,7 @@ do
 			utility:Create("TextLabel", {
 				Name = "Slider",
 				BackgroundTransparency = 1,
-				Position = UDim2.new(0, 10, 0, 28),
+				Position = UDim2.new(0, 10, 0, desc and 42 or 30),
 				Size = UDim2.new(1, -20, 0, 16),
 				ZIndex = 3,
 				Text = "",
@@ -1926,7 +2026,7 @@ do
 			while dragging do
 				utility:Tween(circle, {ImageTransparency = 0}, 0.1)
 				
-				value = self:updateSlider(slider, nil, nil, min, max, value)
+				value = self:updateSlider(slider, nil, nil, min, max, value, step)
 				callback(value)
 				
 				utility:Wait()
@@ -2220,6 +2320,9 @@ do
 			for i, section in pairs(page.sections) do
 			
 				utility:Tween(section.container.Title, {TextTransparency = 0}, 0.1)
+				if section.container:FindFirstChild("Icon") then
+					utility:Tween(section.container.Icon, {ImageTransparency = 0}, 0.1)
+				end
 				section:Resize(true)
 				
 				wait(0.05)
@@ -2240,6 +2343,9 @@ do
 			for i, section in pairs(page.sections) do	
 				utility:Tween(section.container.Parent, {Size = UDim2.new(1, -10, 0, 28)}, 0.1)
 				utility:Tween(section.container.Title, {TextTransparency = 1}, 0.1)
+				if section.container:FindFirstChild("Icon") then
+					utility:Tween(section.container.Icon, {ImageTransparency = 1}, 0.1)
+				end
 			end
 			
 			wait(0.1)
@@ -2410,7 +2516,7 @@ do
 		end
 	end
 	
-	function section:updateSlider(slider, title, value, min, max, lvalue)
+	function section:updateSlider(slider, title, value, min, max, lvalue, step)
 		slider = self:getModule(slider)
 		
 		if title then
@@ -2425,9 +2531,23 @@ do
 		end
 		
 		percent = math.clamp(percent, 0, 1)
-		value = value or math.floor(min + (max - min) * percent)
+		value = value or (min + (max - min) * percent)
 		
-		slider.TextBox.Text = value
+		-- Logic for Step
+		if step then
+			value = math.floor(value / step + 0.5) * step
+		else
+			value = math.floor(value)
+		end
+		
+		-- Format to avoid precision clutter (e.g. 0.1000001)
+		if step and step < 1 then
+			local precision = math.ceil(math.abs(math.log10(step)))
+			slider.TextBox.Text = string.format("%." .. precision .. "f", value)
+		else
+			slider.TextBox.Text = tostring(math.floor(value))
+		end
+
 		utility:Tween(bar.Fill, {Size = UDim2.new(percent, 0, 1, 0)}, 0.1)
 		
 		if value ~= lvalue and slider.ImageTransparency == 0 then
