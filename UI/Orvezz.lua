@@ -357,8 +357,8 @@ do
 					Name = "Pages",
 					BackgroundTransparency = 1,
 					ClipsDescendants = true,
-					Position = UDim2.new(0, 0, 0, 38),
-					Size = UDim2.new(0, 126, 1, -38),
+					Position = UDim2.new(0, 0, 0, 58),  -- Moved down from 38 to create spacing below TopBar (48px + 10px)
+					Size = UDim2.new(0, 126, 1, -58),  -- Adjusted size accordingly
 					ZIndex = 3,
 					Image = "rbxassetid://5012534273",
 					ImageColor3 = themes.DarkContrast,
@@ -388,6 +388,18 @@ do
 					Image = "rbxassetid://4595286933",
 					ImageColor3 = themes.Accent,
 				}, {
+					utility:Create("ImageLabel", {
+						Name = "Shadow",
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0, 0, 1, 0),  -- Below the TopBar
+						Size = UDim2.new(1, 0, 0, 8),  -- 8px shadow height
+						ZIndex = 4,
+						Image = "rbxassetid://5028857084",
+						ImageColor3 = Color3.fromRGB(0, 0, 0),
+						ImageTransparency = 0.7,
+						ScaleType = Enum.ScaleType.Slice,
+						SliceCenter = Rect.new(24, 24, 276, 276)
+					}),
 					utility:Create("ImageLabel", {
 						Name = "Logo",
 						AnchorPoint = Vector2.new(0, 0.5),
