@@ -330,9 +330,16 @@ do
 				Image = "rbxassetid://4641149554",
 				ImageColor3 = themes.Background,
 				ImageTransparency = mainTransparency, -- Use dynamic transparency
-				ScaleType = Enum.ScaleType.Slice,
-				SliceCenter = Rect.new(4, 4, 296, 296)
 			}, {
+				utility:Create("UICorner", {
+					CornerRadius = UDim.new(0, 8)
+				}),
+				utility:Create("UIStroke", {
+					Color = themes.TextColor,
+					Thickness = 1,
+					Transparency = 0.8,
+					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				}),
 				utility:Create("ImageLabel", {
 					Name = "Shadow",
 					BackgroundTransparency = 1,
@@ -365,9 +372,16 @@ do
 					Image = "rbxassetid://5012534273",
 					ImageColor3 = themes.DarkContrast,
 					ImageTransparency = 0.2, -- Match main window glass effect
-					ScaleType = Enum.ScaleType.Slice,
-					SliceCenter = Rect.new(4, 4, 296, 296)
 				}, {
+					utility:Create("UICorner", {
+						CornerRadius = UDim.new(0, 8)
+					}),
+					utility:Create("UIStroke", {
+						Color = themes.TextColor,
+						Thickness = 0.6,
+						Transparency = 0.8,
+						ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+					}),
 					utility:Create("ScrollingFrame", {
 						Name = "Pages_Container",
 						Active = true,
@@ -391,9 +405,16 @@ do
 					ZIndex = 5,
 					Image = "rbxassetid://4595286933",
 					ImageColor3 = themes.Accent,
-					ScaleType = Enum.ScaleType.Slice,
-					SliceCenter = Rect.new(4, 4, 296, 296)
 				}, {
+					utility:Create("UICorner", {
+						CornerRadius = UDim.new(0, 8)
+					}),
+					utility:Create("UIStroke", {
+						Color = themes.TextColor,
+						Thickness = 1,
+						Transparency = 0.8,
+						ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+					}),
 					utility:Create("ImageLabel", {
 						Name = "Logo",
 						AnchorPoint = Vector2.new(0, 0.5),
@@ -505,11 +526,17 @@ do
 			Position = UDim2.new(0, 100, 0.9, 0),
 			Size = UDim2.new(0, 60, 0, 60),
 			ZIndex = 10,
-			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.Background,
-			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(8, 8, 292, 292)
 		}, {
+			utility:Create("UICorner", {
+				CornerRadius = UDim.new(0, 12) -- Circular look for floating icon
+			}),
+			utility:Create("UIStroke", {
+				Color = themes.TextColor,
+				Thickness = 1,
+				Transparency = 0.8,
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			}),
 			utility:Create("ImageLabel", {
 				Name = "Shadow",
 				BackgroundTransparency = 1,
@@ -618,6 +645,26 @@ do
 			Text = "",
 			TextSize = 14
 		}, {
+			utility:Create("ImageLabel", {
+				Name = "Background",
+				BackgroundTransparency = 1,
+				Size = UDim2.new(1, -20, 1, 0),
+				Position = UDim2.new(0, 10, 0, 0),
+				Image = "rbxassetid://5028857472",
+				ImageColor3 = themes.LightContrast,
+				ImageTransparency = 1, -- Invisible by default
+				ZIndex = 2,
+			}, {
+				utility:Create("UICorner", {
+					CornerRadius = UDim.new(0, 6)
+				}),
+				utility:Create("UIStroke", {
+					Color = themes.TextColor,
+					Thickness = 1,
+					Transparency = 0.9,
+					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				})
+			}),
 			utility:Create("TextLabel", {
 				Name = "Title",
 				AnchorPoint = Vector2.new(0, 0.5),
@@ -693,14 +740,19 @@ do
 			Parent = page.container,
 			BackgroundTransparency = 1,
 			Size = UDim2.new(1, -10, 0, 28),
-			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
 			ImageColor3 = themes.LightContrast,
 			ImageTransparency = 0.2, -- Glass consistency
-			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(4, 4, 296, 296),
-			ClipsDescendants = true
 		}, {
+			utility:Create("UICorner", {
+				CornerRadius = UDim.new(0, 8)
+			}),
+			utility:Create("UIStroke", {
+				Color = themes.TextColor,
+				Thickness = 1,
+				Transparency = 0.8,
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			}),
 			utility:Create("Frame", {
 				Name = "Container",
 				Active = true,
@@ -1166,9 +1218,9 @@ do
 					CornerRadius = UDim.new(0, 4)
 				}),
 				utility:Create("UIStroke", {
-					Color = themes.LightContrast,
-					Thickness = 1.6,
-					Transparency = 0.5,
+					Color = themes.TextColor,
+					Thickness = 1,
+					Transparency = 0.8,
 					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 				}),
 				utility:Create("ImageLabel", {
@@ -1298,9 +1350,9 @@ do
 					CornerRadius = UDim.new(0, 4)
 				}),
 				utility:Create("UIStroke", {
-					Color = themes.LightContrast,
-					Thickness = 1.6,
-					Transparency = 0.5,
+					Color = themes.TextColor,
+					Thickness = 1,
+					Transparency = 0.8,
 					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 				}),
 				utility:Create("TextLabel", {
@@ -1560,9 +1612,9 @@ do
 							CornerRadius = UDim.new(0, 4)
 						}),
 						utility:Create("UIStroke", {
-							Color = themes.LightContrast,
-							Thickness = 1.2,
-							Transparency = 0.5,
+							Color = themes.TextColor,
+							Thickness = 1,
+							Transparency = 0.8,
 							ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 						}),
 						utility:Create("TextLabel", {
@@ -1601,9 +1653,9 @@ do
 							CornerRadius = UDim.new(0, 4)
 						}),
 						utility:Create("UIStroke", {
-							Color = themes.LightContrast,
-							Thickness = 1.2,
-							Transparency = 0.5,
+							Color = themes.TextColor,
+							Thickness = 1,
+							Transparency = 0.8,
 							ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 						}),
 						utility:Create("TextLabel", {
@@ -1641,9 +1693,9 @@ do
 							CornerRadius = UDim.new(0, 4)
 						}),
 						utility:Create("UIStroke", {
-							Color = themes.LightContrast,
-							Thickness = 1.2,
-							Transparency = 0.5,
+							Color = themes.TextColor,
+							Thickness = 1,
+							Transparency = 0.8,
 							ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 						}),
 						utility:Create("TextLabel", {
@@ -2150,9 +2202,9 @@ do
 					CornerRadius = UDim.new(0, 8)
 				}),
 				utility:Create("UIStroke", {
-					Color = themes.LightContrast,
-					Thickness = 1.6,
-					Transparency = 0.5,
+					Color = themes.TextColor,
+					Thickness = 1,
+					Transparency = 0.8,
 					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 				}),
 				utility:Create("TextLabel", {
@@ -2328,6 +2380,8 @@ do
 			button.Title.TextTransparency = 0
 			button.Title.Font = Enum.Font.GothamSemibold
 			
+			utility:Tween(button.Background, {ImageTransparency = 0.9}, 0.2)
+			
 			if button:FindFirstChild("Icon") then
 				button.Icon.ImageTransparency = 0
 			end
@@ -2393,6 +2447,8 @@ do
 			-- page button
 			button.Title.Font = Enum.Font.Gotham
 			button.Title.TextTransparency = 0.65
+			
+			utility:Tween(button.Background, {ImageTransparency = 1}, 0.2)
 			
 			if button:FindFirstChild("Icon") then
 				button.Icon.ImageTransparency = 0.65
