@@ -511,6 +511,7 @@ do
 			Position = UDim2.new(0, 100, 0.9, 0),
 			Size = UDim2.new(0, 64, 0, 64),  -- Standardized size
 			ZIndex = 10,
+			Image = "rbxassetid://5028857472",  -- Add background image
 			ImageColor3 = themes.Background,
 		}, {
 			utility:Create("UICorner", {
@@ -706,6 +707,7 @@ do
 			BackgroundTransparency = 1,
 			Size = UDim2.new(1, -10, 0, 28),
 			Image = "rbxassetid://5028857472",
+			ImageColor3 = themes.LightContrast,  -- Restore section color
 			ImageTransparency = 0.2, -- Glass consistency
 		}, {
 			utility:Create("Frame", {
