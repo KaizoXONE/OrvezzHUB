@@ -365,7 +365,7 @@ do
 				BackgroundTransparency = 1,
 				Position = UDim2.new(0.5, 0, 0.5, 0),
 				Size = UDim2.new(0, 40, 0, 40),
-				ZIndex = 11,
+				ZIndex = 15,  -- Increased to be above everything
 				Image = icon,
 				ScaleType = Enum.ScaleType.Fit
 			})
@@ -374,19 +374,21 @@ do
 		-- Make floating icon draggable
 		utility:DraggingEnabled(floatingIcon)
 		
-		-- Toggle UI on click
+		-- Create library instance first
+		local libInstance = setmetatable({
+			container = container,
+			pagesContainer = container.Main.Pages.Pages_Container,
+			pages = {},
+			floatingIcon = floatingIcon
+		}, library)
+		
+		-- Toggle UI on click (using the actual library instance)
 		floatingIcon.MouseButton1Click:Connect(function()
 			-- Pop animation
 			utility:Pop(floatingIcon, 10)
 			
-			-- Toggle the main UI
-			local lib = setmetatable({
-				container = container,
-				pagesContainer = container.Main.Pages.Pages_Container,
-				pages = {}
-			}, library)
-			
-			lib:toggle()
+			-- Toggle the main UI using the library instance
+			libInstance:toggle()
 		end)
 		
 		-- Hover animation
@@ -405,12 +407,7 @@ do
 		utility:InitializeKeybind()
 		utility:DraggingEnabled(container.Main.TopBar, container.Main)
 		
-		return setmetatable({
-			container = container,
-			pagesContainer = container.Main.Pages.Pages_Container,
-			pages = {},
-			floatingIcon = floatingIcon
-		}, library)
+		return libInstance
 	end
 	
 	function page.new(library, title, icon)
