@@ -1161,9 +1161,16 @@ do
 				ZIndex = 2,
 				Image = "rbxassetid://5028857472",
 				ImageColor3 = themes.LightContrast,
-				ScaleType = Enum.ScaleType.Slice,
-				SliceCenter = Rect.new(2, 2, 298, 298)
 			}, {
+				utility:Create("UICorner", {
+					CornerRadius = UDim.new(0, 4)
+				}),
+				utility:Create("UIStroke", {
+					Color = themes.LightContrast,
+					Thickness = 1.6,
+					Transparency = 0.5,
+					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				}),
 				utility:Create("ImageLabel", {
 					Name = "Shadow",
 					BackgroundTransparency = 1,
@@ -1171,8 +1178,8 @@ do
 					Size = UDim2.new(1, 4, 1, 4),
 					ZIndex = 1,
 					Image = "rbxassetid://5028857084",
-					ImageColor3 = Color3.fromRGB(255, 255, 255),
-					ImageTransparency = 0.9,
+					ImageColor3 = Color3.fromRGB(0, 0, 0),
+					ImageTransparency = 0.8,
 					ScaleType = Enum.ScaleType.Slice,
 					SliceCenter = Rect.new(24, 24, 276, 276)
 				}),
@@ -1286,9 +1293,16 @@ do
 				ZIndex = 2,
 				Image = "rbxassetid://5028857472",
 				ImageColor3 = themes.LightContrast,
-				ScaleType = Enum.ScaleType.Slice,
-				SliceCenter = Rect.new(2, 2, 298, 298)
 			}, {
+				utility:Create("UICorner", {
+					CornerRadius = UDim.new(0, 4)
+				}),
+				utility:Create("UIStroke", {
+					Color = themes.LightContrast,
+					Thickness = 1.6,
+					Transparency = 0.5,
+					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				}),
 				utility:Create("TextLabel", {
 					Name = "Text",
 					BackgroundTransparency = 1,
@@ -1541,9 +1555,16 @@ do
 						ZIndex = 2,
 						Image = "rbxassetid://5028857472",
 						ImageColor3 = themes.DarkContrast,
-						ScaleType = Enum.ScaleType.Slice,
-						SliceCenter = Rect.new(2, 2, 298, 298)
 					}, {
+						utility:Create("UICorner", {
+							CornerRadius = UDim.new(0, 4)
+						}),
+						utility:Create("UIStroke", {
+							Color = themes.LightContrast,
+							Thickness = 1.2,
+							Transparency = 0.5,
+							ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+						}),
 						utility:Create("TextLabel", {
 							Name = "Text",
 							BackgroundTransparency = 1,
@@ -1575,9 +1596,16 @@ do
 						ZIndex = 2,
 						Image = "rbxassetid://5028857472",
 						ImageColor3 = themes.DarkContrast,
-						ScaleType = Enum.ScaleType.Slice,
-						SliceCenter = Rect.new(2, 2, 298, 298)
 					}, {
+						utility:Create("UICorner", {
+							CornerRadius = UDim.new(0, 4)
+						}),
+						utility:Create("UIStroke", {
+							Color = themes.LightContrast,
+							Thickness = 1.2,
+							Transparency = 0.5,
+							ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+						}),
 						utility:Create("TextLabel", {
 							Name = "Text",
 							BackgroundTransparency = 1,
@@ -1608,9 +1636,16 @@ do
 						ZIndex = 2,
 						Image = "rbxassetid://5028857472",
 						ImageColor3 = themes.DarkContrast,
-						ScaleType = Enum.ScaleType.Slice,
-						SliceCenter = Rect.new(2, 2, 298, 298)
 					}, {
+						utility:Create("UICorner", {
+							CornerRadius = UDim.new(0, 4)
+						}),
+						utility:Create("UIStroke", {
+							Color = themes.LightContrast,
+							Thickness = 1.2,
+							Transparency = 0.5,
+							ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+						}),
 						utility:Create("TextLabel", {
 							Name = "Text",
 							BackgroundTransparency = 1,
@@ -1642,9 +1677,16 @@ do
 					ZIndex = 2,
 					Image = "rbxassetid://5028857472",
 					ImageColor3 = themes.DarkContrast,
-					ScaleType = Enum.ScaleType.Slice,
-					SliceCenter = Rect.new(2, 2, 298, 298)
 				}, {
+					utility:Create("UICorner", {
+						CornerRadius = UDim.new(0, 4)
+					}),
+					utility:Create("UIStroke", {
+						Color = themes.LightContrast,
+						Thickness = 1.2,
+						Transparency = 0.5,
+						ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+					}),
 					utility:Create("TextLabel", {
 						Name = "Text",
 						BackgroundTransparency = 1,
@@ -1965,21 +2007,27 @@ do
 					Position = UDim2.new(0, 0, 0.5, 0),
 					Size = UDim2.new(1, 0, 0, 4),
 					ZIndex = 3,
-					Image = "rbxassetid://5028857472",
 					ImageColor3 = themes.LightContrast,
-					ScaleType = Enum.ScaleType.Slice,
-					SliceCenter = Rect.new(2, 2, 298, 298)
 				}, {
+					utility:Create("UICorner", {
+						CornerRadius = UDim.new(0, 8)
+					}),
+					utility:Create("UIStroke", {
+						Color = themes.TextColor,
+						Thickness = 0.6,
+						Transparency = 0.8,
+						ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+					}),
 					utility:Create("ImageLabel", {
 						Name = "Fill",
 						BackgroundTransparency = 1,
 						Size = UDim2.new(0.8, 0, 1, 0),
 						ZIndex = 3,
-						Image = "rbxassetid://5028857472",
 						ImageColor3 = themes.TextColor,
-						ScaleType = Enum.ScaleType.Slice,
-						SliceCenter = Rect.new(2, 2, 298, 298)
 					}, {
+						utility:Create("UICorner", {
+							CornerRadius = UDim.new(0, 8)
+						}),
 						utility:Create("ImageLabel", {
 							Name = "Circle",
 							AnchorPoint = Vector2.new(0.5, 0.5),
@@ -2097,9 +2145,16 @@ do
 				ZIndex = 2,
 				Image = "rbxassetid://5028857472",
 				ImageColor3 = themes.DarkContrast,
-				ScaleType = Enum.ScaleType.Slice,
-				SliceCenter = Rect.new(2, 2, 298, 298)
 			}, {
+				utility:Create("UICorner", {
+					CornerRadius = UDim.new(0, 8)
+				}),
+				utility:Create("UIStroke", {
+					Color = themes.LightContrast,
+					Thickness = 1.6,
+					Transparency = 0.5,
+					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				}),
 				utility:Create("TextLabel", {
 					Name = "Title",
 					AnchorPoint = Vector2.new(0, 0.5),
