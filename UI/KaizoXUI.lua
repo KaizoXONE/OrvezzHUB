@@ -73,10 +73,12 @@ function Library:CreateWindow(config)
     local FloatBtn = Instance.new("ImageButton")
     FloatBtn.Name = "FloatingIcon"
     FloatBtn.Parent = sg
-    FloatBtn.BackgroundColor3 = Colors.TopBar
+    FloatBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    FloatBtn.BackgroundTransparency = 0.85 -- Glass effect
     FloatBtn.Position = UDim2.new(0.1, 0, 0.1, 0)
     FloatBtn.Size = UDim2.fromOffset(50, 50)
     FloatBtn.Image = IconId
+    FloatBtn.ImageTransparency = 0
     FloatBtn.ZIndex = 100
     
     local FloatCorner = Instance.new("UICorner")
@@ -85,8 +87,9 @@ function Library:CreateWindow(config)
     
     local FloatStroke = Instance.new("UIStroke")
     FloatStroke.Parent = FloatBtn
-    FloatStroke.Color = Colors.Accent
-    FloatStroke.Thickness = 1
+    FloatStroke.Color = Color3.fromRGB(255, 255, 255)
+    FloatStroke.Thickness = 1.5
+    FloatStroke.Transparency = 0.5 -- Glass border
     
     -- Hover effects
     FloatBtn.MouseEnter:Connect(function()
@@ -130,34 +133,41 @@ function Library:CreateWindow(config)
     local Main = Instance.new("Frame")
     Main.Name = "MainFrame"
     Main.Parent = sg
-    Main.BackgroundColor3 = Colors.MainBg
-    Main.BackgroundTransparency = 0.02
+    Main.BackgroundColor3 = Color3.fromRGB(18, 18, 20)
+    Main.BackgroundTransparency = 0.3 -- Glassmorphism transparency
     Main.Position = UDim2.new(0.5, -300, 0.5, -180)
     Main.Size = UDim2.fromOffset(600, 360)
     
-    local MainGrad = Instance.new("UIGradient")
-    MainGrad.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(200,200,200))
-    })
-    MainGrad.Rotation = 45
-    MainGrad.Parent = Main
+    -- Blur Effect for Glassmorphism
+    local MainBlur = Instance.new("ImageLabel")
+    MainBlur.Name = "BlurEffect"
+    MainBlur.Parent = Main
+    MainBlur.BackgroundTransparency = 1
+    MainBlur.Size = UDim2.new(1, 0, 1, 0)
+    MainBlur.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+    MainBlur.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    MainBlur.ImageTransparency = 0.92
+    MainBlur.ScaleType = Enum.ScaleType.Tile
+    MainBlur.TileSize = UDim2.new(0, 128, 0, 128)
+    MainBlur.ZIndex = 0
 
     local MainCorner = Instance.new("UICorner")
     MainCorner.CornerRadius = UDim.new(0, 12)
     MainCorner.Parent = Main
     
+    -- Glass border effect
     local MainStroke = Instance.new("UIStroke")
     MainStroke.Parent = Main
-    MainStroke.Color = Colors.Stroke
+    MainStroke.Color = Color3.fromRGB(255, 255, 255)
     MainStroke.Thickness = 1
+    MainStroke.Transparency = 0.8 -- Subtle glass border
 
     -- Shadow effect
     local MainShadow = Instance.new("ImageLabel")
     MainShadow.Parent = Main
     MainShadow.Image = "rbxassetid://6014261993"
     MainShadow.ImageColor3 = Color3.new(0,0,0)
-    MainShadow.ImageTransparency = 0.4
+    MainShadow.ImageTransparency = 0.3 -- Darker shadow for glass effect
     MainShadow.BackgroundTransparency = 1
     MainShadow.Position = UDim2.new(0,-25,0,-25)
     MainShadow.Size = UDim2.new(1,50,1,50)
@@ -187,7 +197,8 @@ function Library:CreateWindow(config)
     
     local TopBar = Instance.new("Frame")
     TopBar.Parent = Main
-    TopBar.BackgroundColor3 = Colors.TopBar
+    TopBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TopBar.BackgroundTransparency = 0.9 -- Glass effect
     TopBar.Size = UDim2.new(1, 0, 0, 50)
     TopBar.ZIndex = 20
     
@@ -197,18 +208,27 @@ function Library:CreateWindow(config)
     
     local TBFiller = Instance.new("Frame")
     TBFiller.Parent = TopBar
-    TBFiller.BackgroundColor3 = Colors.TopBar
+    TBFiller.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TBFiller.BackgroundTransparency = 0.9
     TBFiller.BorderSizePixel = 0
     TBFiller.Position = UDim2.new(0,0,1,-10)
     TBFiller.Size = UDim2.new(1,0,0,10)
     TBFiller.ZIndex = 20
 
-    -- Top shadow
+    -- Top border for glass effect
+    local TopStroke = Instance.new("UIStroke")
+    TopStroke.Parent = TopBar
+    TopStroke.Color = Color3.fromRGB(255, 255, 255)
+    TopStroke.Thickness = 0.5
+    TopStroke.Transparency = 0.85
+    TopStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+    -- Top shadow (softer for glass)
     local TopShadow = Instance.new("ImageLabel")
     TopShadow.Parent = TopBar
     TopShadow.Image = "rbxassetid://6015897843"
     TopShadow.ImageColor3 = Color3.new(0,0,0)
-    TopShadow.ImageTransparency = 0.6
+    TopShadow.ImageTransparency = 0.8
     TopShadow.BackgroundTransparency = 1
     TopShadow.Position = UDim2.new(0,0,1,0)
     TopShadow.Size = UDim2.new(1,0,0,20)
@@ -256,7 +276,8 @@ function Library:CreateWindow(config)
     
     local Sidebar = Instance.new("Frame")
     Sidebar.Parent = Main
-    Sidebar.BackgroundColor3 = Colors.Sidebar
+    Sidebar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Sidebar.BackgroundTransparency = 0.92 -- Glass effect
     Sidebar.Position = UDim2.new(0,0,0,50)
     Sidebar.Size = UDim2.new(0,150,1,-50)
     Sidebar.ZIndex = 2
@@ -267,18 +288,28 @@ function Library:CreateWindow(config)
     
     local SFFiller = Instance.new("Frame")
     SFFiller.Parent = Sidebar
-    SFFiller.BackgroundColor3 = Colors.Sidebar
+    SFFiller.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SFFiller.BackgroundTransparency = 0.92
     SFFiller.BorderSizePixel = 0
     SFFiller.Size = UDim2.new(1,0,0,10)
     SFFiller.ZIndex = 2
     
     local SFFillerR = Instance.new("Frame")
     SFFillerR.Parent = Sidebar
-    SFFillerR.BackgroundColor3 = Colors.Sidebar
+    SFFillerR.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SFFillerR.BackgroundTransparency = 0.92
     SFFillerR.BorderSizePixel = 0
     SFFillerR.Position = UDim2.new(1,-10,0,0)
     SFFillerR.Size = UDim2.new(0,10,1,0)
     SFFillerR.ZIndex = 2
+    
+    -- Sidebar glass border
+    local SidebarStroke = Instance.new("UIStroke")
+    SidebarStroke.Parent = Sidebar
+    SidebarStroke.Color = Color3.fromRGB(255, 255, 255)
+    SidebarStroke.Thickness = 0.5
+    SidebarStroke.Transparency = 0.9
+    SidebarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
     local TabContainer = Instance.new("ScrollingFrame")
     TabContainer.Parent = Sidebar
@@ -488,8 +519,8 @@ function Library:CreateWindow(config)
                 
                 local Btn = Instance.new("TextButton")
                 Btn.Parent = self.Page
-                Btn.BackgroundColor3 = Colors.Element
-                Btn.BackgroundTransparency = 0.3
+                Btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Btn.BackgroundTransparency = 0.9 -- Glass effect
                 Btn.Size = UDim2.new(1,0,0,42)
                 Btn.Text = text
                 Btn.Font = Enum.Font.Gotham
@@ -502,11 +533,20 @@ function Library:CreateWindow(config)
                 c.CornerRadius = UDim.new(0,8)
                 c.Parent = Btn
                 
+                -- Glass border
+                local BtnStroke = Instance.new("UIStroke")
+                BtnStroke.Parent = Btn
+                BtnStroke.Color = Color3.fromRGB(255, 255, 255)
+                BtnStroke.Thickness = 0.5
+                BtnStroke.Transparency = 0.85
+                
                 Btn.MouseEnter:Connect(function()
-                    Tween(Btn, {BackgroundColor3 = Color3.fromRGB(45,45,48)}, 0.2)
+                    Tween(Btn, {BackgroundTransparency = 0.85}, 0.2)
+                    Tween(BtnStroke, {Transparency = 0.7}, 0.2)
                 end)
                 Btn.MouseLeave:Connect(function()
-                    Tween(Btn, {BackgroundColor3 = Colors.Element}, 0.2)
+                    Tween(Btn, {BackgroundTransparency = 0.9}, 0.2)
+                    Tween(BtnStroke, {Transparency = 0.85}, 0.2)
                 end)
                 Btn.MouseButton1Down:Connect(function()
                     Tween(Btn, {Size = UDim2.new(1,-2,0,40)}, 0.1)
@@ -534,8 +574,8 @@ function Library:CreateWindow(config)
                 local State = default
                 local Btn = Instance.new("TextButton")
                 Btn.Parent = self.Page
-                Btn.BackgroundColor3 = Colors.Element
-                Btn.BackgroundTransparency = 0.3
+                Btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Btn.BackgroundTransparency = 0.9 -- Glass effect
                 Btn.Size = UDim2.new(1,0,0,42)
                 Btn.Text = "   "..text
                 Btn.Font = Enum.Font.Gotham
@@ -549,9 +589,17 @@ function Library:CreateWindow(config)
                 c.CornerRadius = UDim.new(0,8)
                 c.Parent = Btn
                 
+                -- Glass border
+                local BtnStroke = Instance.new("UIStroke")
+                BtnStroke.Parent = Btn
+                BtnStroke.Color = Color3.fromRGB(255, 255, 255)
+                BtnStroke.Thickness = 0.5
+                BtnStroke.Transparency = 0.85
+                
                 local Sw = Instance.new("Frame")
                 Sw.Parent = Btn
                 Sw.BackgroundColor3 = State and Colors.Accent or Color3.fromRGB(50,50,50)
+                Sw.BackgroundTransparency = State and 0 or 0.3
                 Sw.Position = UDim2.new(1,-50,0.5,-10)
                 Sw.Size = UDim2.new(0,36,0,20)
                 Sw.ZIndex = 4
@@ -572,21 +620,23 @@ function Library:CreateWindow(config)
                 dc.Parent = Dot
 
                 Btn.MouseEnter:Connect(function()
-                    Tween(Btn, {BackgroundColor3 = Color3.fromRGB(45,45,48)}, 0.2)
+                    Tween(Btn, {BackgroundTransparency = 0.85}, 0.2)
+                    Tween(BtnStroke, {Transparency = 0.7}, 0.2)
                 end)
                 Btn.MouseLeave:Connect(function()
-                    Tween(Btn, {BackgroundColor3 = Colors.Element}, 0.2)
+                    Tween(Btn, {BackgroundTransparency = 0.9}, 0.2)
+                    Tween(BtnStroke, {Transparency = 0.85}, 0.2)
                 end)
                 Btn.MouseButton1Click:Connect(function()
                     State = not State
                     if State then
-                        Tween(Sw, {BackgroundColor3 = Colors.Accent}, 0.3)
+                        Tween(Sw, {BackgroundColor3 = Colors.Accent, BackgroundTransparency = 0}, 0.3)
                         Tween(Dot, {
                             Position = UDim2.new(1,-18,0.5,-8),
                             BackgroundColor3 = Colors.Text
                         }, 0.3, Enum.EasingStyle.Back)
                     else
-                        Tween(Sw, {BackgroundColor3 = Color3.fromRGB(50,50,50)}, 0.3)
+                        Tween(Sw, {BackgroundColor3 = Color3.fromRGB(50,50,50), BackgroundTransparency = 0.3}, 0.3)
                         Tween(Dot, {
                             Position = UDim2.new(0,2,0.5,-8),
                             BackgroundColor3 = Colors.TextGray
@@ -630,14 +680,21 @@ function Library:CreateWindow(config)
                 
                 local F = Instance.new("Frame")
                 F.Parent = self.Page
-                F.BackgroundColor3 = Colors.Element
-                F.BackgroundTransparency = 0.3
+                F.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                F.BackgroundTransparency = 0.9 -- Glass effect
                 F.Size = UDim2.new(1,0,0,60)
                 F.ZIndex = 3
                 
                 local c = Instance.new("UICorner")
                 c.CornerRadius = UDim.new(0,8)
                 c.Parent = F
+                
+                -- Glass border
+                local FStroke = Instance.new("UIStroke")
+                FStroke.Parent = F
+                FStroke.Color = Color3.fromRGB(255, 255, 255)
+                FStroke.Thickness = 0.5
+                FStroke.Transparency = 0.85
                 
                 local L = Instance.new("TextLabel")
                 L.Parent = F
@@ -755,14 +812,21 @@ function Library:CreateWindow(config)
                 
                 local F = Instance.new("Frame")
                 F.Parent = self.Page
-                F.BackgroundColor3 = Colors.Element
-                F.BackgroundTransparency = 0.3
+                F.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                F.BackgroundTransparency = 0.9 -- Glass effect
                 F.Size = UDim2.new(1,0,0,45)
                 F.ZIndex = 3
                 
                 local c = Instance.new("UICorner")
                 c.CornerRadius = UDim.new(0,8)
                 c.Parent = F
+                
+                -- Glass border
+                local FStroke = Instance.new("UIStroke")
+                FStroke.Parent = F
+                FStroke.Color = Color3.fromRGB(255, 255, 255)
+                FStroke.Thickness = 0.5
+                FStroke.Transparency = 0.85
                 
                 local L = Instance.new("TextLabel")
                 L.Parent = F
@@ -830,8 +894,8 @@ function Library:CreateWindow(config)
                 
                 local F = Instance.new("Frame")
                 F.Parent = self.Page
-                F.BackgroundColor3 = Colors.Element
-                F.BackgroundTransparency = 0.3
+                F.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                F.BackgroundTransparency = 0.9 -- Glass effect
                 F.Size = UDim2.new(1,0,0,42)
                 F.ZIndex = 3
                 F.ClipsDescendants = true
@@ -839,6 +903,13 @@ function Library:CreateWindow(config)
                 local c = Instance.new("UICorner")
                 c.CornerRadius = UDim.new(0,8)
                 c.Parent = F
+                
+                -- Glass border
+                local FStroke = Instance.new("UIStroke")
+                FStroke.Parent = F
+                FStroke.Color = Color3.fromRGB(255, 255, 255)
+                FStroke.Thickness = 0.5
+                FStroke.Transparency = 0.85
 
                 local L = Instance.new("TextLabel")
                 L.Parent = F
@@ -996,14 +1067,21 @@ function Library:CreateWindow(config)
                 
                 local F = Instance.new("Frame")
                 F.Parent = self.Page
-                F.BackgroundColor3 = Colors.Element
-                F.BackgroundTransparency = 0.3
+                F.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                F.BackgroundTransparency = 0.9 -- Glass effect
                 F.Size = UDim2.new(1,0,0,70)
                 F.ZIndex = 3
                 
                 local c = Instance.new("UICorner")
                 c.CornerRadius = UDim.new(0,8)
                 c.Parent = F
+                
+                -- Glass border
+                local FStroke = Instance.new("UIStroke")
+                FStroke.Parent = F
+                FStroke.Color = Color3.fromRGB(255, 255, 255)
+                FStroke.Thickness = 0.5
+                FStroke.Transparency = 0.85
                 
                 local Title = Instance.new("TextLabel")
                 Title.Parent = F
