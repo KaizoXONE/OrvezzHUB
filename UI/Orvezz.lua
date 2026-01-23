@@ -459,9 +459,15 @@ function Library:CreateWindow(config)
     function Window:CreateTabElements(page, mainFrame)
         local Tab = {}
         
-        function Tab:AddSection(text)
+        function Tab:AddSection(targetPage, text)
+            -- Handle backward compatibility: if only one param, it's text and use default page
+            if type(targetPage) == "string" and text == nil then
+                text = targetPage
+                targetPage = page
+            end
+            
             local L = Instance.new("TextLabel")
-            L.Parent = page
+            L.Parent = targetPage
             L.BackgroundTransparency = 1
             L.Size = UDim2.new(1,0,0,30)
             L.Text = text
@@ -471,9 +477,16 @@ function Library:CreateWindow(config)
             L.ZIndex = 3
         end
 
-        function Tab:AddButton(text, callback)
+        function Tab:AddButton(targetPage, text, callback)
+            -- Handle backward compatibility
+            if type(targetPage) == "string" and type(text) == "function" then
+                callback = text
+                text = targetPage
+                targetPage = page
+            end
+            
             local Btn = Instance.new("TextButton")
-            Btn.Parent = page
+            Btn.Parent = targetPage
             Btn.BackgroundColor3 = Colors.Element
             Btn.BackgroundTransparency = 0.3
             Btn.Size = UDim2.new(1,0,0,42)
@@ -505,10 +518,17 @@ function Library:CreateWindow(config)
             end)
         end
 
-        function Tab:AddToggle(text, callback)
+        function Tab:AddToggle(targetPage, text, callback)
+            -- Handle backward compatibility
+            if type(targetPage) == "string" and type(text) == "function" then
+                callback = text
+                text = targetPage
+                targetPage = page
+            end
+            
             local State = false
             local Btn = Instance.new("TextButton")
-            Btn.Parent = page
+            Btn.Parent = targetPage
             Btn.BackgroundColor3 = Colors.Element
             Btn.BackgroundTransparency = 0.3
             Btn.Size = UDim2.new(1,0,0,42)
@@ -571,9 +591,19 @@ function Library:CreateWindow(config)
             end)
         end
 
-        function Tab:AddSlider(text, min, max, default, callback)
+        function Tab:AddSlider(targetPage, text, min, max, default, callback)
+            -- Handle backward compatibility
+            if type(targetPage) == "string" and type(text) == "number" then
+                callback = default
+                default = max
+                max = min
+                min = text
+                text = targetPage
+                targetPage = page
+            end
+            
             local F = Instance.new("Frame")
-            F.Parent = page
+            F.Parent = targetPage
             F.BackgroundColor3 = Colors.Element
             F.BackgroundTransparency = 0.3
             F.Size = UDim2.new(1,0,0,60)
@@ -681,9 +711,17 @@ function Library:CreateWindow(config)
             BarFill.Size = UDim2.new(P, 0, 1, 0)
         end
 
-        function Tab:AddInput(text, placeholder, callback)
+        function Tab:AddInput(targetPage, text, placeholder, callback)
+            -- Handle backward compatibility
+            if type(targetPage) == "string" and type(text) == "string" and type(placeholder) == "function" then
+                callback = placeholder
+                placeholder = text
+                text = targetPage
+                targetPage = page
+            end
+            
             local F = Instance.new("Frame")
-            F.Parent = page
+            F.Parent = targetPage
             F.BackgroundColor3 = Colors.Element
             F.BackgroundTransparency = 0.3
             F.Size = UDim2.new(1,0,0,45)
@@ -741,12 +779,21 @@ function Library:CreateWindow(config)
             end)
         end
 
-        function Tab:AddDropdown(text, options, multi, callback)
+        function Tab:AddDropdown(targetPage, text, options, multi, callback)
+            -- Handle backward compatibility
+            if type(targetPage) == "string" and type(text) == "table" then
+                callback = multi
+                multi = options
+                options = text
+                text = targetPage
+                targetPage = page
+            end
+            
             local IsOpen = false
             local Selected = multi and {} or nil
             
             local F = Instance.new("Frame")
-            F.Parent = page
+            F.Parent = targetPage
             F.BackgroundColor3 = Colors.Element
             F.BackgroundTransparency = 0.3
             F.Size = UDim2.new(1,0,0,42)
@@ -973,18 +1020,45 @@ function Library:CreateWindow(config)
             Btn.MouseButton1Click:Connect(function()
                 Overlay.Visible = true
                 Tween(Overlay, {BackgroundTransparency = 0.3}, 0.3)
-                Tween(PFrame, {Size = UDim2.new(0,350,0,250)}, 0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+                Tween(PFrame, {Size = UDim2.new(0,400,0,350)}, 0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
             end)
             
             Close.MouseButton1Click:Connect(function()
                 Tween(Overlay, {BackgroundTransparency = 1}, 0.2)
-                local cl = TweenService:Create(PFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Size = UDim2.new(0,350,0,0)})
+                local cl = TweenService:Create(PFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Size = UDim2.new(0,400,0,0)})
                 cl:Play()
                 cl.Completed:Wait()
                 Overlay.Visible = false
             end)
             
-            return self:CreateTabElements(Content, mainFrame)
+            -- Create Popup object with all element methods
+            local Popup = {}
+            
+            function Popup:AddSection(text)
+                return Tab.AddSection(Tab, Content, text)
+            end
+            
+            function Popup:AddButton(text, callback)
+                return Tab.AddButton(Tab, Content, text, callback)
+            end
+            
+            function Popup:AddToggle(text, callback)
+                return Tab.AddToggle(Tab, Content, text, callback)
+            end
+            
+            function Popup:AddSlider(text, min, max, default, callback)
+                return Tab.AddSlider(Tab, Content, text, min, max, default, callback)
+            end
+            
+            function Popup:AddInput(text, placeholder, callback)
+                return Tab.AddInput(Tab, Content, text, placeholder, callback)
+            end
+            
+            function Popup:AddDropdown(text, options, multi, callback)
+                return Tab.AddDropdown(Tab, Content, text, options, multi, callback)
+            end
+            
+            return Popup
         end
         
         return Tab
