@@ -1,13 +1,4 @@
---[[
-    ╔═══════════════════════════════════════════════════════════╗
-    ║                      KAIZO HUB LIBRARY                    ║
-    ║                         Version 2.0                       ║
-    ║                  Created by KaizoX                        ║
-    ╚═══════════════════════════════════════════════════════════╝
-    
-    A modern, smooth UI library for Roblox executors
-    GitHub: https://github.com/YOUR_USERNAME/KaiZoHUB
-]]
+
 
 local Library = {}
 local TweenService = game:GetService("TweenService")
@@ -16,13 +7,10 @@ local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 
--- =================================================================
--- [ LUCIDE ICONS LIBRARY ]
--- =================================================================
+
 
 local LucideIcons = loadstring(game:HttpGet("https://raw.githubusercontent.com/latte-soft/lucide-roblox/main/src/lib.lua"))()
 
--- Helper function to create icon
 local function CreateIcon(iconName, size)
     size = size or 20
     if not iconName then return nil end
@@ -43,9 +31,7 @@ local function CreateIcon(iconName, size)
     return nil
 end
 
--- =================================================================
--- [ UTILITY FUNCTIONS ]
--- =================================================================
+
 
 local function Tween(obj, props, time, style, dir)
     local info = TweenInfo.new(
@@ -56,9 +42,7 @@ local function Tween(obj, props, time, style, dir)
     TweenService:Create(obj, info, props):Play()
 end
 
--- =================================================================
--- [ COLOR CONFIGURATION ]
--- =================================================================
+
 
 local Colors = {
     MainBg      = Color3.fromRGB(18, 18, 20),
@@ -73,9 +57,7 @@ local Colors = {
     Dropdown    = Color3.fromRGB(28, 28, 30)
 }
 
--- =================================================================
--- [ MAIN WINDOW CREATION ]
--- =================================================================
+
 
 function Library:CreateWindow(config)
     config = config or {}
@@ -93,10 +75,7 @@ function Library:CreateWindow(config)
     sg.ResetOnSpawn = false
     sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-    -- =================================================================
-    -- [ FLOATING ICON BUTTON ]
-    -- =================================================================
-    
+
     local FloatBtn = Instance.new("ImageButton")
     FloatBtn.Name = "FloatingIcon"
     FloatBtn.Parent = sg
@@ -153,9 +132,7 @@ function Library:CreateWindow(config)
         end
     end)
 
-    -- =================================================================
-    -- [ MAIN WINDOW FRAME ]
-    -- =================================================================
+
     
     local Main = Instance.new("Frame")
     Main.Name = "MainFrame"
@@ -194,7 +171,7 @@ function Library:CreateWindow(config)
     MainShadow.Parent = Main
     MainShadow.Image = "rbxassetid://6014261993"
     MainShadow.ImageColor3 = Color3.new(0,0,0)
-    MainShadow.ImageTransparency = 0.3 -- Darker shadow for glass effect
+    MainShadow.ImageTransparency = 0.3 
     MainShadow.BackgroundTransparency = 1
     MainShadow.Position = UDim2.new(0,-25,0,-25)
     MainShadow.Size = UDim2.new(1,50,1,50)
@@ -218,9 +195,7 @@ function Library:CreateWindow(config)
         end
     end)
 
-    -- =================================================================
-    -- [ TOP BAR ]
-    -- =================================================================
+
     
     local TopBar = Instance.new("Frame")
     TopBar.Parent = Main
@@ -297,9 +272,7 @@ function Library:CreateWindow(config)
         Main.Visible = false
     end)
 
-    -- =================================================================
-    -- [ SIDEBAR ]
-    -- =================================================================
+
     
     local Sidebar = Instance.new("Frame")
     Sidebar.Parent = Main
@@ -351,9 +324,7 @@ function Library:CreateWindow(config)
     TabList.SortOrder = Enum.SortOrder.LayoutOrder
     TabList.Padding = UDim.new(0,5)
 
-    -- =================================================================
-    -- [ CONTENT AREA ]
-    -- =================================================================
+
     
     local Content = Instance.new("Frame")
     Content.Parent = Main
@@ -370,9 +341,7 @@ function Library:CreateWindow(config)
     PagesFolder.Size = UDim2.new(1,-30,1,-30)
     PagesFolder.ZIndex = 1
 
-    -- =================================================================
-    -- [ DRAGGING FUNCTIONALITY ]
-    -- =================================================================
+
     
     local dragging, dragInput, dragStart, startPos
     TopBar.InputBegan:Connect(function(input)
@@ -406,9 +375,7 @@ function Library:CreateWindow(config)
         end
     end)
 
-    -- =================================================================
-    -- [ WINDOW OBJECT ]
-    -- =================================================================
+
     
     local Window = {}
     local Tabs = {}
